@@ -8,8 +8,10 @@ import SalaryCalculator from './salary-calculator/page';       // 연봉 계산�
 import HairCalculator from './hair-calculator/page';       // 급여
 import ArmyCalculator from './army-calculator/page';       // 전역일
 import AgeCalculator from './age-calculator/page';       // 나이 계산기
+import AnniversaryCalculator from './anniversary-calculator/page';  // 결혼기념일 계산기
+import FreelancerCalculator from './freelancer-calculator/page';  // 프리랜서 세금 계산기
 
-type ToolType = 'home' | 'wealth' | 'rate' | 'salary' | 'hair' | 'army' | 'age';
+type ToolType = 'home' | 'wealth' | 'rate' | 'salary' | 'hair' | 'army' | 'age' | 'anniversary' | 'freelancer';
 
 // 카드 데이터 정의
 const toolCards = [
@@ -61,6 +63,22 @@ const toolCards = [
     color: 'orange',
     keywords: ['나이', '생년월일', '띠', '별자리', '만나이', '세는나이', '생일'],
   },
+  {
+    id: 'anniversary' as ToolType,
+    title: '결혼기념일 계산기',
+    description: '결혼일을 입력하면 몇 주년인지, 다음 기념일까지 D-Day를 알려드립니다.',
+    icon: '💒',
+    color: 'pink',
+    keywords: ['결혼', '기념일', '주년', '은혼식', '금혼식', '웨딩', '부부'],
+  },
+  {
+    id: 'freelancer' as ToolType,
+    title: '프리랜서 세금 계산기',
+    description: '프리랜서 수입에서 3.3% 원천징수 세금을 계산하고 실수령액을 확인하세요.',
+    icon: '💻',
+    color: 'cyan',
+    keywords: ['프리랜서', '세금', '3.3', '원천징수', '실수령', '개인사업자', '외주'],
+  },
 ];
 
 export default function Dashboard() {
@@ -81,6 +99,10 @@ export default function Dashboard() {
         return <ArmyCalculator />;
       case 'age':
         return <AgeCalculator />;
+      case 'anniversary':
+        return <AnniversaryCalculator />;
+      case 'freelancer':
+        return <FreelancerCalculator />;
       default:
         return <HomeGrid onNavigate={setActiveTool} />;
     }
@@ -96,8 +118,8 @@ export default function Dashboard() {
               className="font-bold text-xl text-gray-900 cursor-pointer flex items-center gap-2"
               onClick={() => setActiveTool('home')}
             >
-              <span className="bg-indigo-600 text-white p-1 rounded-lg">💰</span>
-              <span>Finance Lab</span>
+              <span className="bg-indigo-600 text-white p-1 rounded-lg">🧮</span>
+              <span>모두의 계산기</span>
             </div>
 
             {activeTool !== 'home' && (
@@ -119,7 +141,7 @@ export default function Dashboard() {
 
       {/* 푸터 */}
       <footer className="text-center text-gray-400 text-xs py-10">
-        © 2026 Finance Lab. Built with Next.js & Tailwind CSS.
+        © 2026 모두의 계산기. Built with Next.js & Tailwind CSS.
       </footer>
     </div>
   );
@@ -133,6 +155,8 @@ const colorStyles: Record<string, { border: string; bg: string; text: string; ho
   purple: { border: 'bg-purple-500', bg: 'bg-purple-50', text: 'text-purple-600', hoverText: 'group-hover:text-purple-600' },
   slate: { border: 'bg-slate-600', bg: 'bg-slate-100', text: 'text-slate-600', hoverText: 'group-hover:text-slate-600' },
   orange: { border: 'bg-orange-500', bg: 'bg-orange-50', text: 'text-orange-600', hoverText: 'group-hover:text-orange-600' },
+  pink: { border: 'bg-pink-500', bg: 'bg-pink-50', text: 'text-pink-600', hoverText: 'group-hover:text-pink-600' },
+  cyan: { border: 'bg-cyan-500', bg: 'bg-cyan-50', text: 'text-cyan-600', hoverText: 'group-hover:text-cyan-600' },
 };
 
 // 메인 그리드 컴포넌트 (진입 화면)
@@ -156,12 +180,12 @@ function HomeGrid({ onNavigate }: { onNavigate: (tool: ToolType) => void }) {
       {/* 히어로 섹션 */}
       <div className="text-center space-y-4 py-10">
         <h1 className="text-4xl md:text-5xl font-extrabold tracking-tight text-gray-900">
-          내 자산의 <span className="text-transparent bg-clip-text bg-gradient-to-r from-indigo-600 to-blue-500">진짜 가치</span>를<br />
-          발견하세요.
+          일상의 모든 계산,<br />
+          <span className="text-transparent bg-clip-text bg-gradient-to-r from-indigo-600 to-blue-500">한 곳에서</span> 해결하세요.
         </h1>
         <p className="text-lg text-gray-500 max-w-2xl mx-auto">
-          복잡한 금융 계산은 도구에게 맡기고, 당신은 미래를 설계하세요.<br />
-          SCHD 투자부터 연봉 협상까지, 모든 시나리오를 시뮬레이션합니다.
+          연봉, 나이, 기념일, 전역일까지<br />
+          복잡한 계산은 저희에게 맡기세요.
         </p>
       </div>
 
@@ -232,11 +256,11 @@ function HomeGrid({ onNavigate }: { onNavigate: (tool: ToolType) => void }) {
       {/* 빠른 링크 섹션 (Optional) */}
       <div className="mt-12 bg-gray-100 rounded-xl p-6 flex flex-col md:flex-row justify-between items-center gap-4">
         <div>
-          <h4 className="font-bold text-gray-800">🚀 아직 엑셀로 관리하시나요?</h4>
-          <p className="text-sm text-gray-500">배당금 관리와 목표 달성률을 웹에서 바로 확인하세요.</p>
+          <h4 className="font-bold text-gray-800">🧮 필요한 계산기가 없으신가요?</h4>
+          <p className="text-sm text-gray-500">새로운 계산기를 요청해 주세요. 계속해서 추가됩니다!</p>
         </div>
         <button className="bg-gray-900 text-white px-6 py-2 rounded-lg text-sm font-bold hover:bg-gray-800 transition shadow-lg">
-          지금 시작하기
+          계산기 요청하기
         </button>
       </div>
     </div>
