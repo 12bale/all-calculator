@@ -23,11 +23,11 @@ export const metadata: Metadata = {
   openGraph: {
     title: '전부 계산',
     description: '연봉, 금리, 투자, 나이 모든 것을 계산하세요',
-    url: 'https://yoursite.com',
+    url: 'https://www.allcalculator.co.kr',
     type: 'website',
     images: [
       {
-        url: 'https://yoursite.com/og-image.png',
+        url: 'https://www.allcalculator.co.kr/og-image.png',
         width: 1200,
         height: 630,
         alt: '전부 계산',
@@ -63,12 +63,12 @@ export default function RootLayout({
               '@type': 'WebApplication',
               name: '전부 계산',
               description: '일상의 모든 계산을 한 곳에서',
-              url: 'https://yoursite.com',
+              url: 'https://www.allcalculator.co.kr',
             }),
           }}
         />
         {/* Google Search Console */}
-        <meta name="google-site-verification" content="YOUR_VERIFICATION_CODE" />
+        <meta name="google-site-verification" content="ca-pub-5682874697021791" />
       </head>
       <body className={inter.className}>
         <Script
