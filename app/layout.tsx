@@ -14,14 +14,14 @@ const inter = Inter({ subsets: ['latin'] });
 //   },
 // };
 export const metadata: Metadata = {
-  title: '모두의 계산기 | 금융, 연봉, 투자를 한 번에',
+  title: '전부 계산 | 금융, 연봉, 투자를 한 번에',
   description: '복잡한 계산은 가라! 연봉 실수령액부터 투자 시뮬레이션까지, 누구나 쉽게 사용하는 필수 금융 계산기 모음.',
   keywords: '계산기, 연봉 계산, 금리 계산, 나이 계산, 전역일 계산, 세금 계산, 자산 성장',
   icons: {
     icon: '/favicon.ico',
   },
   openGraph: {
-    title: '모두의 계산기',
+    title: '전부 계산',
     description: '연봉, 금리, 투자, 나이 모든 것을 계산하세요',
     url: 'https://yoursite.com',
     type: 'website',
@@ -30,13 +30,13 @@ export const metadata: Metadata = {
         url: 'https://yoursite.com/og-image.png',
         width: 1200,
         height: 630,
-        alt: '모두의 계산기',
+        alt: '전부 계산',
       },
     ],
   },
   twitter: {
     card: 'summary_large_image',
-    title: '모두의 계산기',
+    title: '전부 계산',
     description: '복잡한 계산은 저희에게 맡기세요',
   },
   robots: 'index, follow',
@@ -61,7 +61,7 @@ export default function RootLayout({
             __html: JSON.stringify({
               '@context': 'https://schema.org',
               '@type': 'WebApplication',
-              name: '모두의 계산기',
+              name: '전부 계산',
               description: '일상의 모든 계산을 한 곳에서',
               url: 'https://yoursite.com',
             }),

@@ -117,7 +117,7 @@ export default function Dashboard() {
               className="font-bold text-xl text-gray-900 cursor-pointer flex items-center gap-2"
             >
               <span className="bg-indigo-600 text-white p-1 rounded-lg">🧮</span>
-              <span>모두의 계산기</span>
+              <span>전부 계산</span>
             </Link>
           </div>
         </div>
@@ -217,7 +217,7 @@ export default function Dashboard() {
 
       {/* 푸터 */}
       <footer className="text-center text-gray-400 text-xs py-10">
-        © 2026 모두의 계산기.
+        © 2026 전부 계산.
       </footer>
     </div>
   );
