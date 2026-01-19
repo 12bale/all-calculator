@@ -1,6 +1,7 @@
 'use client';
 
 import { useState } from 'react';
+import Header from '../components/Header';
 
 export default function FreelancerTaxCalculator() {
     const [inputValue, setInputValue] = useState('');
@@ -33,7 +34,9 @@ export default function FreelancerTaxCalculator() {
     };
 
     return (
-        <div className="max-w-md mx-auto mt-10 p-6 bg-white rounded-2xl shadow-lg border border-gray-100">
+        <>
+            <Header />
+            <div className="max-w-md mx-auto mt-10 p-6 bg-white rounded-2xl shadow-lg border border-gray-100">
             <h2 className="text-2xl font-bold text-gray-800 mb-6 text-center">
                 💼 프리랜서 급여 계산기
             </h2>
@@ -79,6 +82,7 @@ export default function FreelancerTaxCalculator() {
                 <p>💡 <strong>3.3%란?</strong> 사업소득세 3% + 지방소득세 0.3%를 합친 금액입니다.</p>
                 <p className="mt-1">💡 5월 종합소득세 신고 시, 소득 수준에 따라 이 세금을 환급받을 수도 있습니다.</p>
             </div>
-        </div>
+            </div>
+        </>
     );
 }

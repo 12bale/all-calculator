@@ -1,6 +1,7 @@
 'use client';
 
 import React, { useState, useMemo } from 'react';
+import Header from '../components/Header';
 
 // 결혼기념일 명칭
 const anniversaryNames: Record<number, { name: string; gift: string }> = {
@@ -120,7 +121,9 @@ export default function AnniversaryCalculator() {
   };
 
   return (
-    <div className="max-w-md mx-auto mt-10 p-6 bg-white rounded-xl shadow-lg border border-gray-100 font-sans">
+    <>
+      <Header />
+      <div className="max-w-md mx-auto mt-10 p-6 bg-white rounded-xl shadow-lg border border-gray-100 font-sans">
       <h2 className="text-2xl font-bold text-gray-800 mb-2 text-center">
         💒 결혼기념일 계산기
       </h2>
@@ -230,6 +233,7 @@ export default function AnniversaryCalculator() {
           결혼일을 입력해주세요.
         </div>
       )}
-    </div>
+      </div>
+    </>
   );
 }

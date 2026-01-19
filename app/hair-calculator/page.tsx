@@ -6,6 +6,13 @@ const formatNumber = (num: number) => {
   return Math.floor(num).toLocaleString();
 };
 
+// 입력용 포맷팅 (천단위 콤마)
+const formatNumberInput = (val: number) => val ? val.toLocaleString('ko-KR') : '';
+const parseNumberInput = (val: string) => {
+  const num = val.replace(/,/g, '');
+  return num === '' ? 0 : Number(num);
+};
+
 export default function Home() {
   const {
     totalSales,
@@ -26,17 +33,17 @@ export default function Home() {
   } = useCalculatorStore()
 
   const handleTotalSalesChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const value = parseFloat(e.target.value) || 0;
+    const value = parseNumberInput(e.target.value);
     setTotalSales(value);
   };
 
   const handleIncentiveRateChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const value = parseFloat(e.target.value) || 0;
+    const value = e.target.value === '' ? 0 : parseFloat(e.target.value);
     setIncentiveRate(value);
   };
 
   const handleInternFeeChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const value = parseFloat(e.target.value) || 0;
+    const value = parseNumberInput(e.target.value);
     setInternFee(value);
   };
 
@@ -56,11 +63,12 @@ export default function Home() {
               총매출
             </label>
             <input
-              type="number"
-              value={totalSales || ''}
+              type="text"
+              inputMode="numeric"
+              value={formatNumberInput(totalSales)}
               onChange={handleTotalSalesChange}
               placeholder="0"
-              className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none"
+              className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none text-right"
             />
           </div>
 
@@ -73,7 +81,7 @@ export default function Home() {
               value={incentiveRate || ''}
               onChange={handleIncentiveRateChange}
               placeholder="0"
-              className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none"
+              className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none text-right"
             />
           </div>
 
@@ -82,11 +90,12 @@ export default function Home() {
               인턴비
             </label>
             <input
-              type="number"
-              value={internFee || ''}
+              type="text"
+              inputMode="numeric"
+              value={formatNumberInput(internFee)}
               onChange={handleInternFeeChange}
               placeholder="0"
-              className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none"
+              className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none text-right"
             />
           </div>
 

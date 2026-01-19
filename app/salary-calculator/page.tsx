@@ -1,6 +1,7 @@
 'use client';
 
-import { useState, useMemo, useEffect } from 'react';
+import { useState, useMemo } from 'react';
+import Header from '../components/Header';
 
 type CalculationMode = 'grossToNet' | 'netToGross';
 
@@ -10,13 +11,77 @@ export default function SalaryCalculator() {
 
     // 입력값 1: 연봉 (Gross)
     const [preTaxYearly, setPreTaxYearly] = useState(60000000);
+    const [preTaxYearlyInput, setPreTaxYearlyInput] = useState('60,000,000');
 
     // 입력값 2: 희망 월 실수령액 (Target Net)
     const [targetMonthlyNet, setTargetMonthlyNet] = useState(4000000);
+    const [targetMonthlyNetInput, setTargetMonthlyNetInput] = useState('4,000,000');
 
     // 공통 설정
     const [nonTaxable, setNonTaxable] = useState(200000);
+    const [nonTaxableInput, setNonTaxableInput] = useState('200,000');
     const [dependents, setDependents] = useState(1);
+    const [dependentsInput, setDependentsInput] = useState('1');
+
+    // 콤마 포맷팅 헬퍼 함수
+    const formatWithComma = (value: number) => value.toLocaleString('ko-KR');
+    const parseNumber = (value: string) => {
+        const num = parseInt(value.replace(/,/g, ''), 10);
+        return isNaN(num) ? null : num;
+    };
+
+    // 입력 핸들러
+    const handlePreTaxYearlyChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        const raw = e.target.value.replace(/,/g, '');
+        if (raw === '') {
+            setPreTaxYearlyInput('');
+            return;
+        }
+        const num = parseNumber(raw);
+        if (num !== null) {
+            setPreTaxYearlyInput(formatWithComma(num));
+            setPreTaxYearly(num);
+        }
+    };
+
+    const handleTargetMonthlyNetChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        const raw = e.target.value.replace(/,/g, '');
+        if (raw === '') {
+            setTargetMonthlyNetInput('');
+            return;
+        }
+        const num = parseNumber(raw);
+        if (num !== null) {
+            setTargetMonthlyNetInput(formatWithComma(num));
+            setTargetMonthlyNet(num);
+        }
+    };
+
+    const handleNonTaxableChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        const raw = e.target.value.replace(/,/g, '');
+        if (raw === '') {
+            setNonTaxableInput('');
+            return;
+        }
+        const num = parseNumber(raw);
+        if (num !== null) {
+            setNonTaxableInput(formatWithComma(num));
+            setNonTaxable(num);
+        }
+    };
+
+    const handleDependentsChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        const raw = e.target.value;
+        if (raw === '') {
+            setDependentsInput('');
+            return;
+        }
+        const num = parseInt(raw, 10);
+        if (!isNaN(num)) {
+            setDependentsInput(raw);
+            setDependents(num);
+        }
+    };
 
     // --- 1. 정방향 계산 함수 (연봉 -> 실수령) ---
     const calculateNetPay = (yearlySalary: number) => {
@@ -92,11 +157,11 @@ export default function SalaryCalculator() {
 
     // --- 결과 도출 ---
     // A. 연봉 입력 모드일 때의 결과
-    const grossToNetResult = useMemo(() => calculateNetPay(preTaxYearly), [preTaxYearly, nonTaxable, dependents]);
+    const grossToNetResult = calculateNetPay(preTaxYearly);
 
     // B. 실수령 입력 모드일 때의 예상 연봉
-    const estimatedGross = useMemo(() => calculateGrossFromNet(targetMonthlyNet), [targetMonthlyNet, nonTaxable, dependents]);
-    const netToGrossResult = useMemo(() => calculateNetPay(estimatedGross), [estimatedGross, nonTaxable, dependents]);
+    const estimatedGross = calculateGrossFromNet(targetMonthlyNet);
+    const netToGrossResult = calculateNetPay(estimatedGross);
 
     // 최종적으로 보여줄 데이터 (모드에 따라 선택)
     const finalResult = mode === 'grossToNet' ? grossToNetResult : netToGrossResult;
@@ -111,6 +176,7 @@ export default function SalaryCalculator() {
             data.push({ salary, ...res });
         }
         return data;
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [nonTaxable, dependents]);
 
     // 포맷팅 함수
@@ -118,9 +184,11 @@ export default function SalaryCalculator() {
     const formatSimple = (val: number) => (val / 10000).toLocaleString() + '만원';
 
     return (
-        <div className="max-w-xl mx-auto my-10 font-sans">
+        <>
+            <Header />
+            <div className="max-w-xl mx-auto my-10 font-sans px-4">
 
-            {/* 탭 메뉴 */}
+                {/* 탭 메뉴 */}
             <div className="flex bg-gray-100 p-1 rounded-xl mb-6">
                 <button
                     onClick={() => setMode('grossToNet')}
@@ -143,9 +211,10 @@ export default function SalaryCalculator() {
                     <div className="mb-6">
                         <label className="text-sm font-bold text-gray-600 mb-2 block">현재 연봉</label>
                         <input
-                            type="number"
-                            value={preTaxYearly}
-                            onChange={(e) => setPreTaxYearly(Number(e.target.value))}
+                            type="text"
+                            inputMode="numeric"
+                            value={preTaxYearlyInput}
+                            onChange={handlePreTaxYearlyChange}
                             className="w-full p-4 border rounded-xl focus:ring-2 focus:ring-green-500 outline-none text-right text-2xl font-extrabold text-green-700"
                         />
                     </div>
@@ -153,9 +222,10 @@ export default function SalaryCalculator() {
                     <div className="mb-6">
                         <label className="text-sm font-bold text-gray-600 mb-2 block">희망 월 실수령액</label>
                         <input
-                            type="number"
-                            value={targetMonthlyNet}
-                            onChange={(e) => setTargetMonthlyNet(Number(e.target.value))}
+                            type="text"
+                            inputMode="numeric"
+                            value={targetMonthlyNetInput}
+                            onChange={handleTargetMonthlyNetChange}
                             className="w-full p-4 border rounded-xl focus:ring-2 focus:ring-blue-500 outline-none text-right text-2xl font-extrabold text-blue-700"
                         />
                         <p className="text-xs text-right text-gray-400 mt-2">
@@ -168,11 +238,11 @@ export default function SalaryCalculator() {
                 <div className="grid grid-cols-2 gap-4 mb-6">
                     <div>
                         <label className="text-xs text-gray-500 block mb-1">비과세액</label>
-                        <input type="number" value={nonTaxable} onChange={(e) => setNonTaxable(Number(e.target.value))} className="w-full p-2 border rounded text-right text-sm" />
+                        <input type="text" inputMode="numeric" value={nonTaxableInput} onChange={handleNonTaxableChange} className="w-full p-2 border rounded text-right text-sm" />
                     </div>
                     <div>
                         <label className="text-xs text-gray-500 block mb-1">부양가족</label>
-                        <input type="number" value={dependents} onChange={(e) => setDependents(Number(e.target.value))} className="w-full p-2 border rounded text-right text-sm" />
+                        <input type="text" inputMode="numeric" value={dependentsInput} onChange={handleDependentsChange} className="w-full p-2 border rounded text-right text-sm" />
                     </div>
                 </div>
 
@@ -219,7 +289,7 @@ export default function SalaryCalculator() {
                     <div>공제액</div>
                 </div>
 
-                <div className="max-h-80 overflow-y-auto custom-scrollbar">
+                <div className="">
                     {salaryTableData.map((row) => {
                         // 현재 계산된 연봉(currentGross)과 비슷한 구간 하이라이트
                         const isHighlight = Math.abs(row.salary - currentGross) < 1500000;
@@ -241,6 +311,7 @@ export default function SalaryCalculator() {
                     })}
                 </div>
             </div>
-        </div>
+            </div>
+        </>
     );
 }

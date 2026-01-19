@@ -1,6 +1,7 @@
 'use client';
 
 import React, { useState, useMemo } from 'react';
+import Header from '../components/Header';
 
 export default function AgeCalculator() {
   const [birthDate, setBirthDate] = useState<string>('');
@@ -71,6 +72,11 @@ export default function AgeCalculator() {
     else if ((month === 11 && day >= 22) || (month === 12 && day <= 21)) constellation = '사수자리';
     else constellation = '염소자리';
 
+    // 띠동갑 계산 (12년 주기)
+    const birthYear = birth.getFullYear();
+    const olderTtidongGap = birthYear - 12; // 위 띠동갑 (12살 위)
+    const youngerTtidongGap = birthYear + 12; // 아래 띠동갑 (12살 아래)
+
     return {
       koreanAge,
       yearAge,
@@ -80,11 +86,16 @@ export default function AgeCalculator() {
       daysUntilBirthday,
       zodiac,
       constellation,
+      birthYear,
+      olderTtidongGap,
+      youngerTtidongGap,
     };
   }, [birthDate, targetDate]);
 
   return (
-    <div className="max-w-md mx-auto mt-10 p-6 bg-white rounded-xl shadow-lg border border-gray-100 font-sans">
+    <>
+      <Header />
+      <div className="max-w-md mx-auto mt-10 p-6 bg-white rounded-xl shadow-lg border border-gray-100 font-sans">
       <h2 className="text-2xl font-bold text-gray-800 mb-2 text-center">
         🎂 나이 계산기
       </h2>
@@ -162,6 +173,30 @@ export default function AgeCalculator() {
               <p className="text-lg font-bold text-purple-700">{result.constellation}</p>
             </div>
           </div>
+
+          {/* 띠동갑 정보 */}
+          <div className="bg-gradient-to-r from-amber-50 to-orange-50 rounded-xl p-5 border border-amber-200">
+            <p className="text-center text-gray-600 text-sm font-medium mb-3">
+              🐾 띠동갑 ({result.zodiac}띠)
+            </p>
+            <div className="flex gap-3">
+              <div className="flex-1 bg-white rounded-lg p-3 text-center shadow-sm">
+                <p className="text-gray-500 text-xs mb-1">위 띠동갑</p>
+                <p className="text-lg font-bold text-amber-700">{result.olderTtidongGap}년생</p>
+                <p className="text-gray-400 text-xs mt-1">12살 위</p>
+              </div>
+              <div className="flex-1 bg-amber-100 rounded-lg p-3 text-center">
+                <p className="text-gray-500 text-xs mb-1">본인</p>
+                <p className="text-lg font-bold text-amber-800">{result.birthYear}년생</p>
+                <p className="text-gray-400 text-xs mt-1">{result.zodiac}띠</p>
+              </div>
+              <div className="flex-1 bg-white rounded-lg p-3 text-center shadow-sm">
+                <p className="text-gray-500 text-xs mb-1">아래 띠동갑</p>
+                <p className="text-lg font-bold text-amber-700">{result.youngerTtidongGap}년생</p>
+                <p className="text-gray-400 text-xs mt-1">12살 아래</p>
+              </div>
+            </div>
+          </div>
         </div>
       )}
 
@@ -176,6 +211,7 @@ export default function AgeCalculator() {
           생년월일을 입력해주세요.
         </div>
       )}
-    </div>
+      </div>
+    </>
   );
 }
