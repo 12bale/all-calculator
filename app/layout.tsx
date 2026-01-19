@@ -68,7 +68,7 @@ export default function RootLayout({
           }}
         />
         {/* Google Search Console */}
-        <meta name="google-site-verification" content="ca-pub-5682874697021791" />
+        <meta name="google-adsense-account" content="ca-pub-5682874697021791" />
       </head>
       <body className={inter.className}>
         <Script
