@@ -11,7 +11,7 @@ export default function Header() {
                         href="/"
                         className="font-bold text-xl text-gray-900 cursor-pointer flex items-center gap-2"
                     >
-                        <span className="bg-indigo-600 text-white p-1 rounded-lg">🧮</span>
+                        <span>🔢</span>
                         <span>전부 계산</span>
                     </Link>
 

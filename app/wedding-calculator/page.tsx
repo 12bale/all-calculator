@@ -120,7 +120,7 @@ export default function WeddingCalculator() {
                                     inputMode="numeric"
                                     value={hallCostInput}
                                     onChange={createHandler(setHallCost, setHallCostInput)}
-                                    className="w-full p-3 border rounded-xl focus:ring-2 focus:ring-pink-500 outline-none text-right text-lg font-bold"
+                                    className="w-full p-3 pr-10 border rounded-xl focus:ring-2 focus:ring-pink-500 outline-none text-right text-lg font-bold"
                                 />
                                 <span className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400">원</span>
                             </div>
@@ -135,7 +135,7 @@ export default function WeddingCalculator() {
                                         inputMode="numeric"
                                         value={mealCostInput}
                                         onChange={createHandler(setMealCost, setMealCostInput)}
-                                        className="w-full p-3 border rounded-xl focus:ring-2 focus:ring-pink-500 outline-none text-right font-bold"
+                                        className="w-full p-3 pr-10 border rounded-xl focus:ring-2 focus:ring-pink-500 outline-none text-right font-bold"
                                     />
                                     <span className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 text-sm">원</span>
                                 </div>
@@ -148,7 +148,7 @@ export default function WeddingCalculator() {
                                         inputMode="numeric"
                                         value={expectedGuestsInput}
                                         onChange={createHandler(setExpectedGuests, setExpectedGuestsInput)}
-                                        className="w-full p-3 border rounded-xl focus:ring-2 focus:ring-pink-500 outline-none text-right font-bold"
+                                        className="w-full p-3 pr-10 border rounded-xl focus:ring-2 focus:ring-pink-500 outline-none text-right font-bold"
                                     />
                                     <span className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 text-sm">명</span>
                                 </div>
@@ -175,7 +175,7 @@ export default function WeddingCalculator() {
                                     inputMode="numeric"
                                     value={studioCostInput}
                                     onChange={createHandler(setStudioCost, setStudioCostInput)}
-                                    className="w-full p-3 border rounded-xl focus:ring-2 focus:ring-pink-500 outline-none text-right font-bold"
+                                    className="w-full p-3 pr-10 border rounded-xl focus:ring-2 focus:ring-pink-500 outline-none text-right font-bold"
                                 />
                                 <span className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 text-sm">원</span>
                             </div>
@@ -188,7 +188,7 @@ export default function WeddingCalculator() {
                                     inputMode="numeric"
                                     value={dressCostInput}
                                     onChange={createHandler(setDressCost, setDressCostInput)}
-                                    className="w-full p-3 border rounded-xl focus:ring-2 focus:ring-pink-500 outline-none text-right font-bold"
+                                    className="w-full p-3 pr-10 border rounded-xl focus:ring-2 focus:ring-pink-500 outline-none text-right font-bold"
                                 />
                                 <span className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 text-sm">원</span>
                             </div>
@@ -201,7 +201,7 @@ export default function WeddingCalculator() {
                                     inputMode="numeric"
                                     value={makeupCostInput}
                                     onChange={createHandler(setMakeupCost, setMakeupCostInput)}
-                                    className="w-full p-3 border rounded-xl focus:ring-2 focus:ring-pink-500 outline-none text-right font-bold"
+                                    className="w-full p-3 pr-10 border rounded-xl focus:ring-2 focus:ring-pink-500 outline-none text-right font-bold"
                                 />
                                 <span className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 text-sm">원</span>
                             </div>
@@ -227,7 +227,7 @@ export default function WeddingCalculator() {
                                     inputMode="numeric"
                                     value={giftCostInput}
                                     onChange={createHandler(setGiftCost, setGiftCostInput)}
-                                    className="w-full p-3 border rounded-xl focus:ring-2 focus:ring-pink-500 outline-none text-right font-bold"
+                                    className="w-full p-3 pr-10 border rounded-xl focus:ring-2 focus:ring-pink-500 outline-none text-right font-bold"
                                 />
                                 <span className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 text-sm">원</span>
                             </div>
@@ -240,7 +240,7 @@ export default function WeddingCalculator() {
                                     inputMode="numeric"
                                     value={yedanInput}
                                     onChange={createHandler(setYedan, setYedanInput)}
-                                    className="w-full p-3 border rounded-xl focus:ring-2 focus:ring-pink-500 outline-none text-right font-bold"
+                                    className="w-full p-3 pr-10 border rounded-xl focus:ring-2 focus:ring-pink-500 outline-none text-right font-bold"
                                 />
                                 <span className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 text-sm">원</span>
                             </div>
@@ -263,7 +263,7 @@ export default function WeddingCalculator() {
                                     inputMode="numeric"
                                     value={honeymoonCostInput}
                                     onChange={createHandler(setHoneymoonCost, setHoneymoonCostInput)}
-                                    className="w-full p-3 border rounded-xl focus:ring-2 focus:ring-pink-500 outline-none text-right font-bold"
+                                    className="w-full p-3 pr-10 border rounded-xl focus:ring-2 focus:ring-pink-500 outline-none text-right font-bold"
                                 />
                                 <span className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 text-sm">원</span>
                             </div>
@@ -276,7 +276,7 @@ export default function WeddingCalculator() {
                                     inputMode="numeric"
                                     value={etcCostInput}
                                     onChange={createHandler(setEtcCost, setEtcCostInput)}
-                                    className="w-full p-3 border rounded-xl focus:ring-2 focus:ring-pink-500 outline-none text-right font-bold"
+                                    className="w-full p-3 pr-10 border rounded-xl focus:ring-2 focus:ring-pink-500 outline-none text-right font-bold"
                                 />
                                 <span className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 text-sm">원</span>
                             </div>
@@ -298,7 +298,7 @@ export default function WeddingCalculator() {
                                 inputMode="numeric"
                                 value={avgGiftMoneyInput}
                                 onChange={createHandler(setAvgGiftMoney, setAvgGiftMoneyInput)}
-                                className="w-full p-3 border rounded-xl focus:ring-2 focus:ring-pink-500 outline-none text-right font-bold"
+                                className="w-full p-3 pr-10 border rounded-xl focus:ring-2 focus:ring-pink-500 outline-none text-right font-bold"
                             />
                             <span className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 text-sm">원</span>
                         </div>

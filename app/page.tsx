@@ -77,6 +77,15 @@ const toolCards = [
     color: 'pink',
     keywords: ['결혼', '예식', '웨딩', '스드메', '예물', '축의금', '신혼여행', '웨딩홀'],
   },
+  {
+    id: 'percent',
+    href: '/percent-calculator',
+    title: '퍼센트 계산기',
+    description: '퍼센트 값 구하기, 비율 계산, 증감률까지. 다양한 퍼센트 계산을 한 번에 해결하세요.',
+    icon: '%',
+    color: 'purple',
+    keywords: ['퍼센트', '비율', '증감률', '할인', '부가세', '비율분배', '%'],
+  },
 ];
 
 // 색상별 스타일 매핑
@@ -116,7 +125,7 @@ export default function Dashboard() {
               href="/"
               className="font-bold text-xl text-gray-900 cursor-pointer flex items-center gap-2"
             >
-              <span className="bg-indigo-600 text-white p-1 rounded-lg">🧮</span>
+              <span>🔢</span>
               <span>전부 계산</span>
             </Link>
           </div>
@@ -127,14 +136,13 @@ export default function Dashboard() {
       <main className="max-w-4xl mx-auto px-4 py-8 sm:px-6 lg:px-8">
         <div className="space-y-8 animate-fade-in-up">
           {/* 히어로 섹션 */}
-          <div className="text-center space-y-4 py-10">
+          <div className="text-center space-y-4 py-10 mb-0">
             <h1 className="text-4xl md:text-5xl font-extrabold tracking-tight text-gray-900 leading-[1.3]">
               일상의 모든 계산,<br />
               <span className="text-transparent bg-clip-text bg-linear-to-r from-indigo-600 to-blue-500">한 곳에서</span> 해결하세요.
             </h1>
             <p className="text-lg text-gray-500 max-w-2xl mx-auto">
-              연봉, 나이, 기념일, 전역일까지<br />
-              복잡한 계산은 저희에게 맡기세요.
+              연봉, 나이, 기념일, 전역일까지 복잡한 계산은 저희에게 맡기세요.
             </p>
           </div>
 
