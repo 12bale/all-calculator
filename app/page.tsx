@@ -2,7 +2,7 @@
 
 import { useState, useMemo } from 'react';
 import Link from 'next/link';
-import { Sparkles, Search, X, ChevronRight, TrendingUp, Wallet, BarChart3, Calculator, Calendar, Shield, Cake, Heart, Laptop, Percent } from 'lucide-react';
+import { Sparkles, Search, X, ChevronRight, TrendingUp, Wallet, BarChart3, Calculator, Calendar, Shield, Cake, Heart, Laptop, Percent, Gift } from 'lucide-react';
 import Navigation from './components/Navigation';
 import Footer from './components/Footer';
 
@@ -99,6 +99,15 @@ const toolCards = [
     color: 'purple',
     keywords: ['퍼센트', '비율', '증감률', '할인', '부가세', '비율분배', '%'],
   },
+  {
+    id: 'youth-policy',
+    href: '/youth-policy-calculator',
+    title: '청년 정책 계산기',
+    description: '나이와 소득만 입력하면 청년도약계좌, 소득세감면 등 받을 수 있는 혜택 총액을 계산합니다.',
+    icon: <Gift className="w-6 h-6" />,
+    color: 'indigo',
+    keywords: ['청년', '청년도약계좌', '청년희망적금', '소득세감면', '청년정책', '청년혜택', '지원금'],
+  },
 ];
 
 // 색상별 스타일 매핑
@@ -147,7 +156,7 @@ export default function Dashboard() {
             </span>
           </div>
 
-          <h1 className="text-3xl md:text-4xl font-bold text-[var(--foreground)] mb-4">
+          <h1 className="text-3xl md:text-4xl font-bold text-[var(--foreground)] mb-4 line-height-1.2 leading-tight">
             일상의 모든 계산,<br />
             <span className="text-[var(--primary)]">한 곳에서</span> 해결하세요
           </h1>

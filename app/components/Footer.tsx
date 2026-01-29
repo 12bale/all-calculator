@@ -68,13 +68,18 @@ export default function Footer() {
             <h4 className="font-semibold text-sm text-[var(--card-foreground)] mb-3">고객지원</h4>
             <ul className="space-y-2">
               <li>
-                <a href="https://forms.gle/BGuoqhngkSg1y7596" target="_blank" rel="noopener noreferrer" className="text-sm text-[var(--muted-foreground)] hover:text-[var(--foreground)] transition-colors">
-                  계산기 요청
-                </a>
+                <Link href="/about" className="text-sm text-[var(--muted-foreground)] hover:text-[var(--foreground)] transition-colors">
+                  서비스 소개
+                </Link>
               </li>
               <li>
-                <a href="mailto:zenox9312@gmail.com" className="text-sm text-[var(--muted-foreground)] hover:text-[var(--foreground)] transition-colors">
-                  이메일
+                <Link href="/contact" className="text-sm text-[var(--muted-foreground)] hover:text-[var(--foreground)] transition-colors">
+                  문의하기
+                </Link>
+              </li>
+              <li>
+                <a href="https://forms.gle/BGuoqhngkSg1y7596" target="_blank" rel="noopener noreferrer" className="text-sm text-[var(--muted-foreground)] hover:text-[var(--foreground)] transition-colors">
+                  계산기 요청
                 </a>
               </li>
             </ul>
@@ -133,7 +138,7 @@ export default function Footer() {
         {/* 저작권 */}
         <div className="flex flex-col sm:flex-row items-center justify-between gap-4 pt-6 border-t border-[var(--border)]">
           <p className="text-sm text-[var(--muted-foreground)]">
-            &copy; {currentYear} 전부 계산. All rights reserved.
+            &copy; {currentYear} 재테크 계산. All rights reserved.
           </p>
           <div className="flex items-center gap-4">
             <a

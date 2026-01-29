@@ -73,7 +73,7 @@ export default function Navigation() {
               <Calculator className="w-5 h-5 text-white" />
             </div>
             <span className="font-bold text-lg text-[var(--foreground)]">
-              전부 계산
+              재테크 계산
             </span>
           </Link>
 

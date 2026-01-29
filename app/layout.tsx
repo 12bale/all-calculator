@@ -21,7 +21,7 @@ export const viewport: Viewport = {
 };
 
 export const metadata: Metadata = {
-  title: '전부 계산 | 금융, 연봉, 투자, 자산 티어를 한 번에',
+  title: '재테크 계산 | 금융, 연봉, 투자, 자산 티어를 한 번에',
   description: '복잡한 계산은 가라! 연봉 실수령액, 자산 티어, 투자 시뮬레이션까지 누구나 쉽게 사용하는 필수 금융 계산기 모음.',
   keywords: [
     '계산기',
@@ -34,9 +34,9 @@ export const metadata: Metadata = {
     '자산 티어',
     '자산 순위',
   ],
-  authors: [{ name: '전부 계산' }],
-  creator: '전부 계산',
-  publisher: '전부 계산',
+  authors: [{ name: '재테크 계산' }],
+  creator: '재테크 계산',
+  publisher: '재테크 계산',
   robots: {
     index: true,
     follow: true,
@@ -52,24 +52,24 @@ export const metadata: Metadata = {
     icon: '/favicon.ico',
   },
   openGraph: {
-    title: '전부 계산',
+    title: '재테크 계산',
     description: '연봉, 금리, 투자, 나이, 자산 티어 모든 것을 계산하세요',
     url: 'https://www.allcalculator.co.kr',
     type: 'website',
     locale: 'ko_KR',
-    siteName: '전부 계산',
+    siteName: '재테크 계산',
     images: [
       {
         url: 'https://www.allcalculator.co.kr/og-image.png',
         width: 1200,
         height: 630,
-        alt: '전부 계산',
+        alt: '재테크 계산',
       },
     ],
   },
   twitter: {
     card: 'summary_large_image',
-    title: '전부 계산',
+    title: '재테크 계산',
     description: '복잡한 계산은 저희에게 맡기세요',
   },
   alternates: {
@@ -98,7 +98,7 @@ export default function RootLayout({
             __html: JSON.stringify({
               '@context': 'https://schema.org',
               '@type': 'WebApplication',
-              name: '전부 계산',
+              name: '재테크 계산',
               description: '일상의 모든 계산을 한 곳에서',
               url: 'https://www.allcalculator.co.kr',
             }),

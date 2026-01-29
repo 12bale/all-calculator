@@ -12,7 +12,7 @@ export default function Header() {
                         className="font-bold text-xl text-gray-900 cursor-pointer flex items-center gap-2"
                     >
                         <span>🔢</span>
-                        <span>전부 계산</span>
+                        <span>재테크 계산</span>
                     </Link>
 
                     <Link
