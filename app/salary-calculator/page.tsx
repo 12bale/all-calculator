@@ -1,7 +1,9 @@
 'use client';
 
 import { useState, useMemo } from 'react';
-import Header from '../components/Header';
+import Navigation from '../components/Navigation';
+import Footer from '../components/Footer';
+import { Calculator, TrendingUp, TrendingDown, Info } from 'lucide-react';
 
 type CalculationMode = 'grossToNet' | 'netToGross';
 
@@ -184,134 +186,196 @@ export default function SalaryCalculator() {
     const formatSimple = (val: number) => (val / 10000).toLocaleString() + '만원';
 
     return (
-        <>
-            <Header />
-            <div className="max-w-xl mx-auto my-10 font-sans px-4">
+        <div className="min-h-screen bg-[var(--background)]">
+            <Navigation />
+            <main className="max-w-2xl mx-auto px-4 py-8">
+                {/* 페이지 헤더 */}
+                <div className="text-center mb-8">
+                    <div className="inline-flex items-center justify-center w-16 h-16 rounded-2xl bg-[var(--primary)]/10 mb-4">
+                        <Calculator className="w-8 h-8 text-[var(--primary)]" />
+                    </div>
+                    <h1 className="text-2xl font-bold text-[var(--foreground)] mb-2">연봉 실수령액 계산기</h1>
+                    <p className="text-[var(--muted-foreground)]">
+                        2025년 4대보험 요율 기준 정확한 실수령액을 계산합니다
+                    </p>
+                </div>
 
                 {/* 탭 메뉴 */}
-            <div className="flex bg-gray-100 p-1 rounded-xl mb-6">
-                <button
-                    onClick={() => setMode('grossToNet')}
-                    className={`flex-1 py-3 rounded-lg text-sm font-bold transition-all ${mode === 'grossToNet' ? 'bg-white text-green-700 shadow-sm' : 'text-gray-500 hover:text-gray-700'}`}
-                >
-                    연봉으로 계산
-                </button>
-                <button
-                    onClick={() => setMode('netToGross')}
-                    className={`flex-1 py-3 rounded-lg text-sm font-bold transition-all ${mode === 'netToGross' ? 'bg-white text-blue-700 shadow-sm' : 'text-gray-500 hover:text-gray-700'}`}
-                >
-                    실수령액으로 환산
-                </button>
-            </div>
-
-            <div className="bg-white p-6 rounded-2xl shadow-xl border border-gray-100 mb-8">
-
-                {/* 모드별 입력창 */}
-                {mode === 'grossToNet' ? (
-                    <div className="mb-6">
-                        <label className="text-sm font-bold text-gray-600 mb-2 block">현재 연봉</label>
-                        <input
-                            type="text"
-                            inputMode="numeric"
-                            value={preTaxYearlyInput}
-                            onChange={handlePreTaxYearlyChange}
-                            className="w-full p-4 border rounded-xl focus:ring-2 focus:ring-green-500 outline-none text-right text-2xl font-extrabold text-green-700"
-                        />
-                    </div>
-                ) : (
-                    <div className="mb-6">
-                        <label className="text-sm font-bold text-gray-600 mb-2 block">희망 월 실수령액</label>
-                        <input
-                            type="text"
-                            inputMode="numeric"
-                            value={targetMonthlyNetInput}
-                            onChange={handleTargetMonthlyNetChange}
-                            className="w-full p-4 border rounded-xl focus:ring-2 focus:ring-blue-500 outline-none text-right text-2xl font-extrabold text-blue-700"
-                        />
-                        <p className="text-xs text-right text-gray-400 mt-2">
-                            월 {formatMoney(targetMonthlyNet)}을 받으려면 연봉이 얼마나 되어야 할까요?
-                        </p>
-                    </div>
-                )}
-
-                {/* 공통 설정 (접이식으로 만들어도 좋음) */}
-                <div className="grid grid-cols-2 gap-4 mb-6">
-                    <div>
-                        <label className="text-xs text-gray-500 block mb-1">비과세액</label>
-                        <input type="text" inputMode="numeric" value={nonTaxableInput} onChange={handleNonTaxableChange} className="w-full p-2 border rounded text-right text-sm" />
-                    </div>
-                    <div>
-                        <label className="text-xs text-gray-500 block mb-1">부양가족</label>
-                        <input type="text" inputMode="numeric" value={dependentsInput} onChange={handleDependentsChange} className="w-full p-2 border rounded text-right text-sm" />
-                    </div>
+                <div className="flex bg-[var(--secondary)] p-1 rounded-xl mb-6">
+                    <button
+                        onClick={() => setMode('grossToNet')}
+                        className={`flex-1 py-3 rounded-lg text-sm font-bold transition-all flex items-center justify-center gap-2 ${mode === 'grossToNet' ? 'bg-[var(--card)] text-[var(--primary)] shadow-sm' : 'text-[var(--muted-foreground)] hover:text-[var(--foreground)]'}`}
+                    >
+                        <TrendingDown className="w-4 h-4" />
+                        연봉 → 실수령
+                    </button>
+                    <button
+                        onClick={() => setMode('netToGross')}
+                        className={`flex-1 py-3 rounded-lg text-sm font-bold transition-all flex items-center justify-center gap-2 ${mode === 'netToGross' ? 'bg-[var(--card)] text-[var(--accent)] shadow-sm' : 'text-[var(--muted-foreground)] hover:text-[var(--foreground)]'}`}
+                    >
+                        <TrendingUp className="w-4 h-4" />
+                        실수령 → 연봉
+                    </button>
                 </div>
 
-                {/* 결과 표시 영역 */}
-                {mode === 'grossToNet' ? (
-                    // 정방향 결과
-                    <div className="bg-green-50 p-5 rounded-xl border border-green-100">
-                        <div className="flex justify-between items-center pb-2 border-b border-green-200 mb-2">
-                            <span className="text-gray-600 text-sm">월 예상 실수령액</span>
-                            <span className="text-2xl font-extrabold text-green-700">{formatMoney(finalResult.netPay)}</span>
+                <div className="bg-[var(--card)] p-6 rounded-2xl shadow-lg border border-[var(--border)] mb-8">
+                    {/* 모드별 입력창 */}
+                    {mode === 'grossToNet' ? (
+                        <div className="mb-6">
+                            <label className="text-sm font-bold text-[var(--foreground)] mb-2 block">현재 연봉</label>
+                            <input
+                                type="text"
+                                inputMode="numeric"
+                                value={preTaxYearlyInput}
+                                onChange={handlePreTaxYearlyChange}
+                                className="w-full p-4 border border-[var(--border)] rounded-xl bg-[var(--background)] focus:ring-2 focus:ring-[var(--primary)] outline-none text-right text-2xl font-extrabold text-[var(--primary)]"
+                            />
                         </div>
-                        <div className="flex justify-between text-xs text-gray-400">
-                            <span>월 공제액 합계</span>
-                            <span>-{formatMoney(finalResult.totalDeduction)}</span>
+                    ) : (
+                        <div className="mb-6">
+                            <label className="text-sm font-bold text-[var(--foreground)] mb-2 block">희망 월 실수령액</label>
+                            <input
+                                type="text"
+                                inputMode="numeric"
+                                value={targetMonthlyNetInput}
+                                onChange={handleTargetMonthlyNetChange}
+                                className="w-full p-4 border border-[var(--border)] rounded-xl bg-[var(--background)] focus:ring-2 focus:ring-[var(--accent)] outline-none text-right text-2xl font-extrabold text-[var(--accent)]"
+                            />
+                            <p className="text-xs text-right text-[var(--muted-foreground)] mt-2">
+                                월 {formatMoney(targetMonthlyNet)}을 받으려면 연봉이 얼마나 되어야 할까요?
+                            </p>
+                        </div>
+                    )}
+
+                    {/* 공통 설정 */}
+                    <div className="grid grid-cols-2 gap-4 mb-6">
+                        <div>
+                            <label className="text-xs text-[var(--muted-foreground)] block mb-1">비과세액 (월)</label>
+                            <input
+                                type="text"
+                                inputMode="numeric"
+                                value={nonTaxableInput}
+                                onChange={handleNonTaxableChange}
+                                className="w-full p-3 border border-[var(--border)] rounded-lg bg-[var(--background)] text-right text-sm text-[var(--foreground)]"
+                            />
+                        </div>
+                        <div>
+                            <label className="text-xs text-[var(--muted-foreground)] block mb-1">부양가족 수</label>
+                            <input
+                                type="text"
+                                inputMode="numeric"
+                                value={dependentsInput}
+                                onChange={handleDependentsChange}
+                                className="w-full p-3 border border-[var(--border)] rounded-lg bg-[var(--background)] text-right text-sm text-[var(--foreground)]"
+                            />
                         </div>
                     </div>
-                ) : (
-                    // 역방향 결과 (필요 연봉 표시)
-                    <div className="bg-blue-50 p-5 rounded-xl border border-blue-100">
-                        <div className="flex justify-between items-center pb-2 border-b border-blue-200 mb-2">
-                            <span className="text-gray-600 text-sm">필요 연봉 (계약액)</span>
-                            <span className="text-2xl font-extrabold text-blue-700">{formatMoney(estimatedGross)}</span>
-                        </div>
-                        <div className="flex justify-between text-xs text-gray-400">
-                            <span>월 실수령액 맞춤</span>
-                            <span>{formatMoney(targetMonthlyNet)}</span>
-                        </div>
-                        <div className="mt-2 text-xs text-blue-500 text-center bg-white rounded py-1">
-                            * 연봉 {formatSimple(Math.round(estimatedGross))} 계약 시 달성 가능
-                        </div>
-                    </div>
-                )}
-            </div>
 
-            {/* --- 하단: 연봉표 (공통) --- */}
-            <div className="bg-white rounded-2xl shadow-lg border border-gray-100 overflow-hidden">
-                <div className="p-4 bg-gray-50 border-b border-gray-200 flex justify-between items-center">
-                    <h3 className="font-bold text-gray-700">📊 구간별 실수령액표</h3>
-                </div>
-
-                <div className="grid grid-cols-3 bg-gray-100 p-3 text-xs font-bold text-gray-500 text-center sticky top-0">
-                    <div>연봉</div>
-                    <div>월 실수령액</div>
-                    <div>공제액</div>
-                </div>
-
-                <div className="">
-                    {salaryTableData.map((row) => {
-                        // 현재 계산된 연봉(currentGross)과 비슷한 구간 하이라이트
-                        const isHighlight = Math.abs(row.salary - currentGross) < 1500000;
-                        const highlightColor = mode === 'grossToNet' ? 'bg-green-100 text-green-800' : 'bg-blue-100 text-blue-800';
-
-                        return (
-                            <div
-                                key={row.salary}
-                                className={`grid grid-cols-3 p-3 text-sm text-center border-b last:border-0 transition-colors ${isHighlight ? `${highlightColor} font-bold` : 'text-gray-600 hover:bg-gray-50'
-                                    }`}
-                            >
-                                <div className="font-medium">{formatSimple(row.salary)}</div>
-                                <div>{formatMoney(row.netPay)}</div>
-                                <div className="text-gray-400 text-xs flex items-center justify-center">
-                                    -{formatMoney(row.totalDeduction)}
-                                </div>
+                    {/* 결과 표시 영역 */}
+                    {mode === 'grossToNet' ? (
+                        <div className="bg-[var(--primary)]/10 p-5 rounded-xl border border-[var(--primary)]/20">
+                            <div className="flex justify-between items-center pb-3 border-b border-[var(--primary)]/20 mb-3">
+                                <span className="text-[var(--foreground)] text-sm font-medium">월 예상 실수령액</span>
+                                <span className="text-2xl font-extrabold text-[var(--primary)]">{formatMoney(finalResult.netPay)}</span>
                             </div>
-                        );
-                    })}
+                            <div className="flex justify-between text-sm text-[var(--muted-foreground)]">
+                                <span>월 공제액 합계</span>
+                                <span className="text-red-500">-{formatMoney(finalResult.totalDeduction)}</span>
+                            </div>
+                        </div>
+                    ) : (
+                        <div className="bg-[var(--accent)]/10 p-5 rounded-xl border border-[var(--accent)]/20">
+                            <div className="flex justify-between items-center pb-3 border-b border-[var(--accent)]/20 mb-3">
+                                <span className="text-[var(--foreground)] text-sm font-medium">필요 연봉 (계약액)</span>
+                                <span className="text-2xl font-extrabold text-[var(--accent)]">{formatMoney(estimatedGross)}</span>
+                            </div>
+                            <div className="flex justify-between text-sm text-[var(--muted-foreground)]">
+                                <span>월 실수령액 맞춤</span>
+                                <span>{formatMoney(targetMonthlyNet)}</span>
+                            </div>
+                            <div className="mt-3 text-xs text-[var(--accent)] text-center bg-[var(--card)] rounded-lg py-2">
+                                연봉 {formatSimple(Math.round(estimatedGross))} 계약 시 달성 가능
+                            </div>
+                        </div>
+                    )}
                 </div>
-            </div>
-            </div>
-        </>
+
+                {/* 공제 상세 내역 */}
+                {finalResult.pension !== undefined && (
+                    <div className="bg-[var(--card)] p-6 rounded-2xl shadow-lg border border-[var(--border)] mb-8">
+                        <div className="flex items-center gap-2 mb-4">
+                            <Info className="w-5 h-5 text-[var(--muted-foreground)]" />
+                            <h3 className="font-bold text-[var(--foreground)]">공제 상세 내역</h3>
+                        </div>
+                        <div className="space-y-3">
+                            <div className="flex justify-between text-sm">
+                                <span className="text-[var(--muted-foreground)]">국민연금 (4.5%)</span>
+                                <span className="text-[var(--foreground)]">{formatMoney(finalResult.pension || 0)}</span>
+                            </div>
+                            <div className="flex justify-between text-sm">
+                                <span className="text-[var(--muted-foreground)]">건강보험 (3.545%)</span>
+                                <span className="text-[var(--foreground)]">{formatMoney(finalResult.health || 0)}</span>
+                            </div>
+                            <div className="flex justify-between text-sm">
+                                <span className="text-[var(--muted-foreground)]">장기요양 (12.95%)</span>
+                                <span className="text-[var(--foreground)]">{formatMoney(finalResult.care || 0)}</span>
+                            </div>
+                            <div className="flex justify-between text-sm">
+                                <span className="text-[var(--muted-foreground)]">고용보험 (0.9%)</span>
+                                <span className="text-[var(--foreground)]">{formatMoney(finalResult.employment || 0)}</span>
+                            </div>
+                            <div className="flex justify-between text-sm">
+                                <span className="text-[var(--muted-foreground)]">소득세</span>
+                                <span className="text-[var(--foreground)]">{formatMoney(finalResult.incomeTax || 0)}</span>
+                            </div>
+                            <div className="flex justify-between text-sm">
+                                <span className="text-[var(--muted-foreground)]">지방소득세 (10%)</span>
+                                <span className="text-[var(--foreground)]">{formatMoney(finalResult.localTax || 0)}</span>
+                            </div>
+                            <div className="pt-3 border-t border-[var(--border)] flex justify-between font-bold">
+                                <span className="text-[var(--foreground)]">총 공제액</span>
+                                <span className="text-red-500">-{formatMoney(finalResult.totalDeduction)}</span>
+                            </div>
+                        </div>
+                    </div>
+                )}
+
+                {/* 연봉표 */}
+                <div className="bg-[var(--card)] rounded-2xl shadow-lg border border-[var(--border)] overflow-hidden">
+                    <div className="p-4 bg-[var(--secondary)] border-b border-[var(--border)] flex justify-between items-center">
+                        <h3 className="font-bold text-[var(--foreground)]">구간별 실수령액표</h3>
+                    </div>
+
+                    <div className="grid grid-cols-3 bg-[var(--muted)] p-3 text-xs font-bold text-[var(--muted-foreground)] text-center sticky top-0">
+                        <div>연봉</div>
+                        <div>월 실수령액</div>
+                        <div>공제액</div>
+                    </div>
+
+                    <div>
+                        {salaryTableData.map((row) => {
+                            const isHighlight = Math.abs(row.salary - currentGross) < 1500000;
+                            const highlightClass = mode === 'grossToNet'
+                                ? 'bg-[var(--primary)]/10 text-[var(--primary)]'
+                                : 'bg-[var(--accent)]/10 text-[var(--accent)]';
+
+                            return (
+                                <div
+                                    key={row.salary}
+                                    className={`grid grid-cols-3 p-3 text-sm text-center border-b border-[var(--border)] last:border-0 transition-colors ${isHighlight ? `${highlightClass} font-bold` : 'text-[var(--foreground)] hover:bg-[var(--secondary)]'}`}
+                                >
+                                    <div className="font-medium">{formatSimple(row.salary)}</div>
+                                    <div>{formatMoney(row.netPay)}</div>
+                                    <div className="text-[var(--muted-foreground)] text-xs flex items-center justify-center">
+                                        -{formatMoney(row.totalDeduction)}
+                                    </div>
+                                </div>
+                            );
+                        })}
+                    </div>
+                </div>
+            </main>
+            <Footer />
+        </div>
     );
 }

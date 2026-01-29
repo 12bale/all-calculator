@@ -1,7 +1,9 @@
 'use client';
 
 import { useState } from 'react';
-import Header from '../components/Header';
+import Navigation from '../components/Navigation';
+import Footer from '../components/Footer';
+import { Briefcase, Info } from 'lucide-react';
 
 export default function FreelancerTaxCalculator() {
     const [inputValue, setInputValue] = useState('');
@@ -34,55 +36,71 @@ export default function FreelancerTaxCalculator() {
     };
 
     return (
-        <>
-            <Header />
-            <div className="max-w-md mx-auto mt-10 p-6 bg-white rounded-2xl shadow-lg border border-gray-100">
-            <h2 className="text-2xl font-bold text-gray-800 mb-6 text-center">
-                💼 프리랜서 급여 계산기
-            </h2>
-
-            {/* 입력 섹션 */}
-            <div className="mb-8">
-                <label className="block text-sm font-medium text-gray-600 mb-2">
-                    계약 금액 (세전)
-                </label>
-                <div className="relative">
-                    <input
-                        type="text"
-                        value={inputValue}
-                        onChange={handleInputChange}
-                        placeholder="금액을 입력하세요"
-                        className="w-full text-right p-4 pr-12 text-xl font-bold border rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 bg-gray-50 text-gray-900"
-                    />
-                    <span className="absolute right-4 top-1/2 -translate-y-1/2 text-gray-500 font-medium">
-                        원
-                    </span>
-                </div>
-            </div>
-
-            {/* 결과 섹션 */}
-            <div className="space-y-4">
-                <div className="flex justify-between items-center p-4 bg-red-50 rounded-xl">
-                    <span className="text-red-600 font-medium">떼이는 세금 (3.3%)</span>
-                    <span className="text-xl font-bold text-red-700">
-                        - {result.tax.toLocaleString()} 원
-                    </span>
+        <div className="min-h-screen bg-[var(--background)]">
+            <Navigation />
+            <main className="max-w-2xl mx-auto px-4 py-8">
+                {/* 페이지 헤더 */}
+                <div className="text-center mb-8">
+                    <div className="inline-flex items-center justify-center w-16 h-16 rounded-2xl bg-[var(--primary)]/10 mb-4">
+                        <Briefcase className="w-8 h-8 text-[var(--primary)]" />
+                    </div>
+                    <h1 className="text-2xl font-bold text-[var(--foreground)] mb-2">프리랜서 급여 계산기</h1>
+                    <p className="text-[var(--muted-foreground)]">
+                        3.3% 원천징수 후 실수령액을 계산합니다
+                    </p>
                 </div>
 
-                <div className="flex justify-between items-center p-4 bg-blue-50 rounded-xl border border-blue-100">
-                    <span className="text-blue-700 font-bold text-lg">실제 통장에 꽂히는 돈</span>
-                    <span className="text-2xl font-extrabold text-blue-800">
-                        {result.netIncome.toLocaleString()} 원
-                    </span>
-                </div>
-            </div>
+                <div className="bg-[var(--card)] p-6 rounded-2xl shadow-lg border border-[var(--border)]">
+                    {/* 입력 섹션 */}
+                    <div className="mb-8">
+                        <label className="block text-sm font-medium text-[var(--foreground)] mb-2">
+                            계약 금액 (세전)
+                        </label>
+                        <div className="relative">
+                            <input
+                                type="text"
+                                value={inputValue}
+                                onChange={handleInputChange}
+                                placeholder="금액을 입력하세요"
+                                className="w-full text-right p-4 pr-12 text-xl font-bold border border-[var(--border)] rounded-xl focus:outline-none focus:ring-2 focus:ring-[var(--primary)] bg-[var(--background)] text-[var(--foreground)]"
+                            />
+                            <span className="absolute right-4 top-1/2 -translate-y-1/2 text-[var(--muted-foreground)] font-medium">
+                                원
+                            </span>
+                        </div>
+                    </div>
 
-            {/* 팁 섹션 */}
-            <div className="mt-8 p-4 bg-gray-50 rounded-lg text-xs text-gray-500">
-                <p>💡 <strong>3.3%란?</strong> 사업소득세 3% + 지방소득세 0.3%를 합친 금액입니다.</p>
-                <p className="mt-1">💡 5월 종합소득세 신고 시, 소득 수준에 따라 이 세금을 환급받을 수도 있습니다.</p>
-            </div>
-            </div>
-        </>
+                    {/* 결과 섹션 */}
+                    <div className="space-y-4">
+                        <div className="flex justify-between items-center p-4 bg-red-500/10 rounded-xl border border-red-500/20">
+                            <span className="text-red-600 dark:text-red-400 font-medium">떼이는 세금 (3.3%)</span>
+                            <span className="text-xl font-bold text-red-600 dark:text-red-400">
+                                - {result.tax.toLocaleString()} 원
+                            </span>
+                        </div>
+
+                        <div className="flex justify-between items-center p-4 bg-[var(--primary)]/10 rounded-xl border border-[var(--primary)]/20">
+                            <span className="text-[var(--primary)] font-bold text-lg">실제 통장에 꽂히는 돈</span>
+                            <span className="text-2xl font-extrabold text-[var(--primary)]">
+                                {result.netIncome.toLocaleString()} 원
+                            </span>
+                        </div>
+                    </div>
+
+                    {/* 팁 섹션 */}
+                    <div className="mt-8 p-4 bg-[var(--secondary)] rounded-lg text-xs text-[var(--muted-foreground)]">
+                        <div className="flex items-start gap-2 mb-2">
+                            <Info className="w-4 h-4 mt-0.5 flex-shrink-0" />
+                            <p><strong className="text-[var(--foreground)]">3.3%란?</strong> 사업소득세 3% + 지방소득세 0.3%를 합친 금액입니다.</p>
+                        </div>
+                        <div className="flex items-start gap-2">
+                            <Info className="w-4 h-4 mt-0.5 flex-shrink-0" />
+                            <p>5월 종합소득세 신고 시, 소득 수준에 따라 이 세금을 환급받을 수도 있습니다.</p>
+                        </div>
+                    </div>
+                </div>
+            </main>
+            <Footer />
+        </div>
     );
 }

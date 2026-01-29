@@ -1,7 +1,9 @@
 'use client';
 
 import { useState } from 'react';
-import Header from '../components/Header';
+import Navigation from '../components/Navigation';
+import Footer from '../components/Footer';
+import { Percent, TrendingUp, TrendingDown, PieChart } from 'lucide-react';
 
 type CalculationMode = 'findPercent' | 'findValue' | 'findChange' | 'findRatio';
 
@@ -184,19 +186,30 @@ export default function PercentCalculator() {
     };
 
     return (
-        <>
-            <Header />
-            <div className="max-w-xl mx-auto my-10 font-sans px-4">
+        <div className="min-h-screen bg-[var(--background)]">
+            <Navigation />
+            <main className="max-w-2xl mx-auto px-4 py-8">
+                {/* 페이지 헤더 */}
+                <div className="text-center mb-8">
+                    <div className="inline-flex items-center justify-center w-16 h-16 rounded-2xl bg-[var(--primary)]/10 mb-4">
+                        <Percent className="w-8 h-8 text-[var(--primary)]" />
+                    </div>
+                    <h1 className="text-2xl font-bold text-[var(--foreground)] mb-2">퍼센트 계산기</h1>
+                    <p className="text-[var(--muted-foreground)]">
+                        다양한 퍼센트 계산을 쉽게 할 수 있습니다
+                    </p>
+                </div>
+
                 {/* 탭 메뉴 */}
-                <div className="grid grid-cols-2 gap-2 bg-gray-100 p-1 rounded-xl mb-6">
+                <div className="grid grid-cols-2 gap-2 bg-[var(--secondary)] p-1 rounded-xl mb-6">
                     {(Object.keys(modeConfig) as CalculationMode[]).map((key) => (
                         <button
                             key={key}
                             onClick={() => setMode(key)}
                             className={`py-3 rounded-lg text-sm font-bold transition-all ${
                                 mode === key
-                                    ? `bg-white text-${modeConfig[key].color}-700 shadow-sm`
-                                    : 'text-gray-500 hover:text-gray-700'
+                                    ? `bg-[var(--card)] shadow-sm`
+                                    : 'text-[var(--muted-foreground)] hover:text-[var(--foreground)]'
                             }`}
                             style={mode === key ? { color: getColor(modeConfig[key].color) } : {}}
                         >
@@ -205,8 +218,8 @@ export default function PercentCalculator() {
                     ))}
                 </div>
 
-                <div className="bg-white p-6 rounded-2xl shadow-xl border border-gray-100 mb-8">
-                    <p className="text-sm text-gray-500 mb-4 text-center">{currentConfig.description}</p>
+                <div className="bg-[var(--card)] p-6 rounded-2xl shadow-lg border border-[var(--border)] mb-8">
+                    <p className="text-sm text-[var(--muted-foreground)] mb-4 text-center">{currentConfig.description}</p>
 
                     {/* 모드별 입력 영역 */}
                     {mode === 'findPercent' && (
@@ -335,13 +348,13 @@ export default function PercentCalculator() {
 
                         {/* 예시 버튼 */}
                     <div className="mt-4 mb-2">
-                        <p className="text-xs text-gray-400 mb-2">예시를 클릭하면 자동 입력됩니다</p>
+                        <p className="text-xs text-[var(--muted-foreground)] mb-2">예시를 클릭하면 자동 입력됩니다</p>
                         <div className="flex flex-wrap gap-2">
                             {examples[mode].map((example, idx) => (
                                 <button
                                     key={idx}
                                     onClick={() => applyExample(example)}
-                                    className="text-xs px-3 py-1.5 bg-gray-100 hover:bg-gray-200 text-gray-600 rounded-full transition-colors"
+                                    className="text-xs px-3 py-1.5 bg-[var(--secondary)] hover:bg-[var(--muted)] text-[var(--foreground)] rounded-full transition-colors"
                                     title={example.desc}
                                 >
                                     {example.label}
@@ -354,56 +367,56 @@ export default function PercentCalculator() {
                     <div className={`mt-6 p-5 rounded-xl border ${getResultStyle(currentConfig.color)}`}>
                         {mode === 'findPercent' && (
                             <>
-                                <p className="text-sm text-gray-600 mb-2">{result.description}</p>
-                                <p className="text-3xl font-extrabold text-green-700">
+                                <p className="text-sm text-[var(--foreground)] mb-2">{result.description}</p>
+                                <p className="text-3xl font-extrabold text-green-600 dark:text-green-400">
                                     {formatNumber(result.result as number)}
                                 </p>
-                                <p className="text-xs text-gray-400 mt-2">{result.formula}</p>
+                                <p className="text-xs text-[var(--muted-foreground)] mt-2">{result.formula}</p>
                             </>
                         )}
 
                         {mode === 'findValue' && (
                             <>
-                                <p className="text-sm text-gray-600 mb-2">{result.description}</p>
-                                <p className="text-3xl font-extrabold text-blue-700">
+                                <p className="text-sm text-[var(--foreground)] mb-2">{result.description}</p>
+                                <p className="text-3xl font-extrabold text-blue-600 dark:text-blue-400">
                                     {formatNumber(result.result as number)}%
                                 </p>
-                                <p className="text-xs text-gray-400 mt-2">{result.formula}</p>
+                                <p className="text-xs text-[var(--muted-foreground)] mt-2">{result.formula}</p>
                             </>
                         )}
 
                         {mode === 'findChange' && (
                             <>
-                                <p className="text-sm text-gray-600 mb-2">{result.description}</p>
-                                <p className={`text-3xl font-extrabold ${(result as { isIncrease: boolean }).isIncrease ? 'text-red-600' : 'text-blue-600'}`}>
+                                <p className="text-sm text-[var(--foreground)] mb-2">{result.description}</p>
+                                <p className={`text-3xl font-extrabold ${(result as { isIncrease: boolean }).isIncrease ? 'text-red-500' : 'text-blue-500'}`}>
                                     {(result.result as number) >= 0 ? '+' : ''}{formatNumber(result.result as number)}%
                                     <span className="text-lg ml-2">
                                         {(result as { isIncrease: boolean }).isIncrease ? '증가' : '감소'}
                                     </span>
                                 </p>
-                                <p className="text-xs text-gray-400 mt-2">{result.formula}</p>
+                                <p className="text-xs text-[var(--muted-foreground)] mt-2">{result.formula}</p>
                             </>
                         )}
 
                         {mode === 'findRatio' && (
                             <>
-                                <p className="text-sm text-gray-600 mb-3">{result.description}</p>
+                                <p className="text-sm text-[var(--foreground)] mb-3">{result.description}</p>
                                 <div className="grid grid-cols-2 gap-4">
-                                    <div className="bg-white p-3 rounded-lg">
-                                        <p className="text-xs text-gray-500">A의 몫</p>
-                                        <p className="text-xl font-extrabold text-orange-700">
+                                    <div className="bg-[var(--card)] p-3 rounded-lg">
+                                        <p className="text-xs text-[var(--muted-foreground)]">A의 몫</p>
+                                        <p className="text-xl font-extrabold text-orange-600 dark:text-orange-400">
                                             {formatNumber((result.result as { amountA: number }).amountA)}
                                         </p>
-                                        <p className="text-xs text-gray-400">
+                                        <p className="text-xs text-[var(--muted-foreground)]">
                                             ({formatNumber((result.result as { percentA: number }).percentA)}%)
                                         </p>
                                     </div>
-                                    <div className="bg-white p-3 rounded-lg">
-                                        <p className="text-xs text-gray-500">B의 몫</p>
-                                        <p className="text-xl font-extrabold text-orange-700">
+                                    <div className="bg-[var(--card)] p-3 rounded-lg">
+                                        <p className="text-xs text-[var(--muted-foreground)]">B의 몫</p>
+                                        <p className="text-xl font-extrabold text-orange-600 dark:text-orange-400">
                                             {formatNumber((result.result as { amountB: number }).amountB)}
                                         </p>
-                                        <p className="text-xs text-gray-400">
+                                        <p className="text-xs text-[var(--muted-foreground)]">
                                             ({formatNumber((result.result as { percentB: number }).percentB)}%)
                                         </p>
                                     </div>
@@ -414,9 +427,9 @@ export default function PercentCalculator() {
                 </div>
 
                 {/* 퍼센트 예제 표 */}
-                <div className="bg-white rounded-2xl shadow-lg border border-gray-100 overflow-hidden">
-                    <div className="p-4 bg-gray-50 border-b border-gray-200">
-                        <h3 className="font-bold text-gray-700">자주 쓰는 퍼센트 계산</h3>
+                <div className="bg-[var(--card)] rounded-2xl shadow-lg border border-[var(--border)] overflow-hidden">
+                    <div className="p-4 bg-[var(--secondary)] border-b border-[var(--border)]">
+                        <h3 className="font-bold text-[var(--foreground)]">자주 쓰는 퍼센트 계산</h3>
                     </div>
                     <div className="p-4">
                         <div className="grid grid-cols-2 gap-3">
@@ -428,16 +441,17 @@ export default function PercentCalculator() {
                                 { label: '50% 증가', calc: '원래 × 1.5' },
                                 { label: '25% 감소', calc: '원래 × 0.75' },
                             ].map((item, idx) => (
-                                <div key={idx} className="bg-gray-50 p-3 rounded-lg">
-                                    <p className="font-bold text-gray-700 text-sm">{item.label}</p>
-                                    <p className="text-xs text-gray-500">{item.calc}</p>
+                                <div key={idx} className="bg-[var(--secondary)] p-3 rounded-lg">
+                                    <p className="font-bold text-[var(--foreground)] text-sm">{item.label}</p>
+                                    <p className="text-xs text-[var(--muted-foreground)]">{item.calc}</p>
                                 </div>
                             ))}
                         </div>
                     </div>
                 </div>
-            </div>
-        </>
+            </main>
+            <Footer />
+        </div>
     );
 }
 

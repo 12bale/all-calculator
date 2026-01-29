@@ -1,7 +1,9 @@
 'use client';
 
 import React, { useState, useMemo } from 'react';
-import Header from '../components/Header';
+import Navigation from '../components/Navigation';
+import Footer from '../components/Footer';
+import { Heart, Calendar, Gift, Star } from 'lucide-react';
 
 // 결혼기념일 명칭
 const anniversaryNames: Record<number, { name: string; gift: string }> = {
@@ -121,119 +123,133 @@ export default function AnniversaryCalculator() {
   };
 
   return (
-    <>
-      <Header />
-      <div className="max-w-md mx-auto mt-10 p-6 bg-white rounded-xl shadow-lg border border-gray-100 font-sans">
-      <h2 className="text-2xl font-bold text-gray-800 mb-2 text-center">
-        💒 결혼기념일 계산기
-      </h2>
-      <p className="text-center text-gray-500 text-sm mb-6">
-        결혼일을 입력하면 다양한 기념일 정보를 확인할 수 있습니다
-      </p>
+    <div className="min-h-screen bg-[var(--background)]">
+      <Navigation />
+      <main className="max-w-2xl mx-auto px-4 py-8">
+        {/* 페이지 헤더 */}
+        <div className="text-center mb-8">
+          <div className="inline-flex items-center justify-center w-16 h-16 rounded-2xl bg-pink-500/10 mb-4">
+            <Heart className="w-8 h-8 text-pink-500" />
+          </div>
+          <h1 className="text-2xl font-bold text-[var(--foreground)] mb-2">결혼기념일 계산기</h1>
+          <p className="text-[var(--muted-foreground)]">
+            결혼일을 입력하면 다양한 기념일 정보를 확인할 수 있습니다
+          </p>
+        </div>
 
-      {/* 입력 영역 */}
-      <div>
-        <label className="block text-sm font-medium text-gray-700 mb-2">
-          결혼일
-        </label>
-        <input
-          type="date"
-          value={weddingDate}
-          onChange={(e: React.ChangeEvent<HTMLInputElement>) => setWeddingDate(e.target.value)}
-          className="w-full px-4 py-3 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-pink-500 focus:border-transparent"
-        />
-      </div>
-
-      {/* 결과 영역 */}
-      {result && (
-        <div className="mt-8 space-y-4">
-          {/* 메인 결과 */}
-          <div className="bg-pink-50 rounded-xl p-5 border border-pink-200 text-center">
-            <p className="text-gray-600 text-sm mb-1">결혼한 지</p>
-            <p className="text-4xl font-bold text-pink-600">
-              {result.years}년 {result.totalDays.toLocaleString()}일
-            </p>
-            {result.currentAnniversaryInfo && (
-              <p className="text-pink-500 text-sm mt-2">
-                {result.currentAnniversaryInfo.name}
-              </p>
-            )}
+        <div className="bg-[var(--card)] p-6 rounded-2xl shadow-lg border border-[var(--border)]">
+          {/* 입력 영역 */}
+          <div>
+            <label className="block text-sm font-medium text-[var(--foreground)] mb-2">
+              <Calendar className="w-4 h-4 inline mr-1" />
+              결혼일
+            </label>
+            <input
+              type="date"
+              value={weddingDate}
+              onChange={(e: React.ChangeEvent<HTMLInputElement>) => setWeddingDate(e.target.value)}
+              className="w-full px-4 py-3 border border-[var(--border)] rounded-xl bg-[var(--background)] text-[var(--foreground)] focus:outline-none focus:ring-2 focus:ring-pink-500"
+            />
           </div>
 
-          {/* 다음 기념일 */}
-          <div className="bg-red-50 rounded-xl p-4 border border-red-200">
-            <div className="flex justify-between items-center">
-              <div>
-                <p className="text-gray-500 text-xs">다음 결혼기념일</p>
-                <p className="text-lg font-bold text-red-600">{result.nextYears}주년</p>
+          {/* 결과 영역 */}
+          {result && (
+            <div className="mt-8 space-y-4">
+              {/* 메인 결과 */}
+              <div className="bg-pink-500/10 rounded-xl p-5 border border-pink-500/20 text-center">
+                <p className="text-[var(--muted-foreground)] text-sm mb-1">결혼한 지</p>
+                <p className="text-4xl font-bold text-pink-500">
+                  {result.years}년 {result.totalDays.toLocaleString()}일
+                </p>
+                {result.currentAnniversaryInfo && (
+                  <p className="text-pink-400 text-sm mt-2">
+                    {result.currentAnniversaryInfo.name}
+                  </p>
+                )}
               </div>
-              <div className="text-right">
-                <p className="text-2xl font-bold text-red-600">D-{result.daysUntilAnniversary}</p>
-              </div>
-            </div>
-          </div>
 
-          {/* 상세 정보 그리드 */}
-          <div className="grid grid-cols-2 gap-3">
-            <div className="bg-gray-50 rounded-lg p-4 text-center">
-              <p className="text-gray-500 text-xs mb-1">결혼일</p>
-              <p className="text-sm font-bold text-gray-800">{result.weddingDayOfWeek}</p>
-            </div>
-            {result.lastSpecialDay && (
-              <div className="bg-gray-50 rounded-lg p-4 text-center">
-                <p className="text-gray-500 text-xs mb-1">지난 기념일</p>
-                <p className="text-sm font-bold text-gray-800">{result.lastSpecialDay.toLocaleString()}일</p>
-              </div>
-            )}
-          </div>
-
-          {/* 다가오는 특별한 날 */}
-          {result.upcomingSpecialDays.length > 0 && (
-            <div className="bg-purple-50 rounded-xl p-4 border border-purple-200">
-              <p className="text-gray-600 text-sm font-medium mb-3">다가오는 특별한 날</p>
-              <div className="space-y-2">
-                {result.upcomingSpecialDays.map((special) => (
-                  <div key={special.days} className="flex justify-between items-center text-sm">
-                    <span className="text-purple-700 font-medium">{special.days.toLocaleString()}일</span>
-                    <span className="text-gray-500">{formatDate(special.date)}</span>
-                    <span className="text-purple-600 font-bold">D-{special.daysLeft}</span>
+              {/* 다음 기념일 */}
+              <div className="bg-red-500/10 rounded-xl p-4 border border-red-500/20">
+                <div className="flex justify-between items-center">
+                  <div>
+                    <p className="text-[var(--muted-foreground)] text-xs">다음 결혼기념일</p>
+                    <p className="text-lg font-bold text-red-500">{result.nextYears}주년</p>
                   </div>
-                ))}
+                  <div className="text-right">
+                    <p className="text-2xl font-bold text-red-500">D-{result.daysUntilAnniversary}</p>
+                  </div>
+                </div>
               </div>
+
+              {/* 상세 정보 그리드 */}
+              <div className="grid grid-cols-2 gap-3">
+                <div className="bg-[var(--secondary)] rounded-lg p-4 text-center">
+                  <p className="text-[var(--muted-foreground)] text-xs mb-1">결혼일</p>
+                  <p className="text-sm font-bold text-[var(--foreground)]">{result.weddingDayOfWeek}</p>
+                </div>
+                {result.lastSpecialDay && (
+                  <div className="bg-[var(--secondary)] rounded-lg p-4 text-center">
+                    <p className="text-[var(--muted-foreground)] text-xs mb-1">지난 기념일</p>
+                    <p className="text-sm font-bold text-[var(--foreground)]">{result.lastSpecialDay.toLocaleString()}일</p>
+                  </div>
+                )}
+              </div>
+
+              {/* 다가오는 특별한 날 */}
+              {result.upcomingSpecialDays.length > 0 && (
+                <div className="bg-purple-500/10 rounded-xl p-4 border border-purple-500/20">
+                  <p className="text-[var(--foreground)] text-sm font-medium mb-3 flex items-center gap-1">
+                    <Star className="w-4 h-4 text-purple-500" />
+                    다가오는 특별한 날
+                  </p>
+                  <div className="space-y-2">
+                    {result.upcomingSpecialDays.map((special) => (
+                      <div key={special.days} className="flex justify-between items-center text-sm">
+                        <span className="text-purple-500 font-medium">{special.days.toLocaleString()}일</span>
+                        <span className="text-[var(--muted-foreground)]">{formatDate(special.date)}</span>
+                        <span className="text-purple-400 font-bold">D-{special.daysLeft}</span>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              )}
+
+              {/* 다음 주요 기념일 */}
+              {result.nextMajorAnniversary && (
+                <div className="bg-amber-500/10 rounded-xl p-4 border border-amber-500/20">
+                  <p className="text-[var(--foreground)] text-sm font-medium mb-2 flex items-center gap-1">
+                    <Gift className="w-4 h-4 text-amber-500" />
+                    다음 주요 기념일
+                  </p>
+                  <div className="flex justify-between items-center">
+                    <div>
+                      <p className="text-amber-500 font-bold">{result.nextMajorAnniversary.years}주년</p>
+                      <p className="text-amber-400 text-sm">{result.nextMajorAnniversary.name}</p>
+                      <p className="text-[var(--muted-foreground)] text-xs">선물: {result.nextMajorAnniversary.gift}</p>
+                    </div>
+                    <div className="text-right">
+                      <p className="text-sm text-[var(--muted-foreground)]">{formatDate(result.nextMajorAnniversary.date)}</p>
+                    </div>
+                  </div>
+                </div>
+              )}
             </div>
           )}
 
-          {/* 다음 주요 기념일 */}
-          {result.nextMajorAnniversary && (
-            <div className="bg-yellow-50 rounded-xl p-4 border border-yellow-200">
-              <p className="text-gray-600 text-sm font-medium mb-2">다음 주요 기념일</p>
-              <div className="flex justify-between items-center">
-                <div>
-                  <p className="text-yellow-700 font-bold">{result.nextMajorAnniversary.years}주년</p>
-                  <p className="text-yellow-600 text-sm">{result.nextMajorAnniversary.name}</p>
-                  <p className="text-gray-500 text-xs">선물: {result.nextMajorAnniversary.gift}</p>
-                </div>
-                <div className="text-right">
-                  <p className="text-sm text-gray-500">{formatDate(result.nextMajorAnniversary.date)}</p>
-                </div>
-              </div>
+          {!result && weddingDate && (
+            <div className="mt-8 text-center text-red-500">
+              결혼일이 오늘보다 미래입니다.
+            </div>
+          )}
+
+          {!weddingDate && (
+            <div className="mt-8 text-center text-[var(--muted-foreground)]">
+              결혼일을 입력해주세요.
             </div>
           )}
         </div>
-      )}
-
-      {!result && weddingDate && (
-        <div className="mt-8 text-center text-red-500">
-          결혼일이 오늘보다 미래입니다.
-        </div>
-      )}
-
-      {!weddingDate && (
-        <div className="mt-8 text-center text-gray-400">
-          결혼일을 입력해주세요.
-        </div>
-      )}
-      </div>
-    </>
+      </main>
+      <Footer />
+    </div>
   );
 }

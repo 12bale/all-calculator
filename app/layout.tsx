@@ -1,30 +1,63 @@
-import type { Metadata } from 'next';
-import { Inter } from 'next/font/google';
+import type { Metadata, Viewport } from 'next';
+import { Geist, Geist_Mono } from 'next/font/google';
 import './globals.css';
-import Script from 'next/script'
+import Script from 'next/script';
+import { UserDataProvider } from '@/context/UserDataContext';
 
-const inter = Inter({ subsets: ['latin'] });
+const geistSans = Geist({
+  variable: '--font-geist-sans',
+  subsets: ['latin'],
+});
 
-// 🛠️ 여기를 수정하세요
-// export const metadata: Metadata = {
-//   title: '모두의 계산기 | 금융, 연봉, 투자를 한 번에',
-//   description: '복잡한 계산은 가라! 연봉 실수령액부터 투자 시뮬레이션까지, 누구나 쉽게 사용하는 필수 금융 계산기 모음.',
-//   icons: {
-//     icon: '/favicon.ico',
-//   },
-// };
+const geistMono = Geist_Mono({
+  variable: '--font-geist-mono',
+  subsets: ['latin'],
+});
+
+export const viewport: Viewport = {
+  width: 'device-width',
+  initialScale: 1,
+  maximumScale: 1,
+};
+
 export const metadata: Metadata = {
-  title: '전부 계산 | 금융, 연봉, 투자를 한 번에',
-  description: '복잡한 계산은 가라! 연봉 실수령액부터 투자 시뮬레이션까지, 누구나 쉽게 사용하는 필수 금융 계산기 모음.',
-  keywords: '계산기, 연봉 계산, 금리 계산, 나이 계산, 전역일 계산, 세금 계산, 자산 성장',
+  title: '전부 계산 | 금융, 연봉, 투자, 자산 티어를 한 번에',
+  description: '복잡한 계산은 가라! 연봉 실수령액, 자산 티어, 투자 시뮬레이션까지 누구나 쉽게 사용하는 필수 금융 계산기 모음.',
+  keywords: [
+    '계산기',
+    '연봉 계산',
+    '금리 계산',
+    '나이 계산',
+    '전역일 계산',
+    '세금 계산',
+    '자산 성장',
+    '자산 티어',
+    '자산 순위',
+  ],
+  authors: [{ name: '전부 계산' }],
+  creator: '전부 계산',
+  publisher: '전부 계산',
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+      'max-video-preview': -1,
+      'max-image-preview': 'large',
+      'max-snippet': -1,
+    },
+  },
   icons: {
     icon: '/favicon.ico',
   },
   openGraph: {
     title: '전부 계산',
-    description: '연봉, 금리, 투자, 나이 모든 것을 계산하세요',
+    description: '연봉, 금리, 투자, 나이, 자산 티어 모든 것을 계산하세요',
     url: 'https://www.allcalculator.co.kr',
     type: 'website',
+    locale: 'ko_KR',
+    siteName: '전부 계산',
     images: [
       {
         url: 'https://www.allcalculator.co.kr/og-image.png',
@@ -39,11 +72,11 @@ export const metadata: Metadata = {
     title: '전부 계산',
     description: '복잡한 계산은 저희에게 맡기세요',
   },
-  robots: 'index, follow',
-  viewport: 'width=device-width, initial-scale=1.0',
+  alternates: {
+    canonical: '/',
+  },
+  category: 'finance',
 };
-
-
 
 export default function RootLayout({
   children,
@@ -51,9 +84,13 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="ko">
+    <html lang="ko" suppressHydrationWarning>
       <head>
-        {/* 구조화된 데이터 (Schema.org) */}
+        <link rel="icon" href="/favicon.ico" sizes="any" />
+        <meta name="theme-color" content="#3b82f6" />
+        <meta name="apple-mobile-web-app-capable" content="yes" />
+        <meta name="apple-mobile-web-app-status-bar-style" content="default" />
+        <meta name="google-adsense-account" content="ca-pub-5682874697021791" />
         <Script
           id="schema-org"
           type="application/ld+json"
@@ -67,17 +104,17 @@ export default function RootLayout({
             }),
           }}
         />
-        {/* Google Search Console */}
-        <meta name="google-adsense-account" content="ca-pub-5682874697021791" />
       </head>
-      <body className={inter.className}>
+      <body className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
         <Script
           async
           src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5682874697021791"
           crossOrigin="anonymous"
           strategy="afterInteractive"
         />
-        {children}
+        <UserDataProvider>
+          {children}
+        </UserDataProvider>
       </body>
     </html>
   );

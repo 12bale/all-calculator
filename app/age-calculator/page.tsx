@@ -1,7 +1,9 @@
 'use client';
 
 import React, { useState, useMemo } from 'react';
-import Header from '../components/Header';
+import Navigation from '../components/Navigation';
+import Footer from '../components/Footer';
+import { Cake, Calendar, Star, Info } from 'lucide-react';
 
 export default function AgeCalculator() {
   const [birthDate, setBirthDate] = useState<string>('');
@@ -93,125 +95,136 @@ export default function AgeCalculator() {
   }, [birthDate, targetDate]);
 
   return (
-    <>
-      <Header />
-      <div className="max-w-md mx-auto mt-10 p-6 bg-white rounded-xl shadow-lg border border-gray-100 font-sans">
-      <h2 className="text-2xl font-bold text-gray-800 mb-2 text-center">
-        🎂 나이 계산기
-      </h2>
-      <p className="text-center text-gray-500 text-sm mb-6">
-        생년월일을 입력하면 다양한 나이 정보를 확인할 수 있습니다
-      </p>
-
-      {/* 입력 영역 */}
-      <div className="space-y-4">
-        <div>
-          <label className="block text-sm font-medium text-gray-700 mb-2">
-            생년월일
-          </label>
-          <input
-            type="date"
-            value={birthDate}
-            onChange={(e: React.ChangeEvent<HTMLInputElement>) => setBirthDate(e.target.value)}
-            className="w-full px-4 py-3 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-transparent"
-          />
+    <div className="min-h-screen bg-[var(--background)]">
+      <Navigation />
+      <main className="max-w-2xl mx-auto px-4 py-8">
+        {/* 페이지 헤더 */}
+        <div className="text-center mb-8">
+          <div className="inline-flex items-center justify-center w-16 h-16 rounded-2xl bg-[var(--primary)]/10 mb-4">
+            <Cake className="w-8 h-8 text-[var(--primary)]" />
+          </div>
+          <h1 className="text-2xl font-bold text-[var(--foreground)] mb-2">나이 계산기</h1>
+          <p className="text-[var(--muted-foreground)]">
+            생년월일을 입력하면 다양한 나이 정보를 확인할 수 있습니다
+          </p>
         </div>
 
-        <div>
-          <label className="block text-sm font-medium text-gray-700 mb-2">
-            기준일 (오늘)
-          </label>
-          <input
-            type="date"
-            value={targetDate}
-            onChange={(e: React.ChangeEvent<HTMLInputElement>) => setTargetDate(e.target.value)}
-            className="w-full px-4 py-3 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-transparent"
-          />
-        </div>
-      </div>
+        <div className="bg-[var(--card)] p-6 rounded-2xl shadow-lg border border-[var(--border)] mb-6">
+          {/* 입력 영역 */}
+          <div className="space-y-4">
+            <div>
+              <label className="block text-sm font-medium text-[var(--foreground)] mb-2">
+                <Calendar className="w-4 h-4 inline mr-1" />
+                생년월일
+              </label>
+              <input
+                type="date"
+                value={birthDate}
+                onChange={(e: React.ChangeEvent<HTMLInputElement>) => setBirthDate(e.target.value)}
+                className="w-full px-4 py-3 border border-[var(--border)] rounded-xl bg-[var(--background)] text-[var(--foreground)] focus:outline-none focus:ring-2 focus:ring-[var(--primary)]"
+              />
+            </div>
 
-      {/* 결과 영역 */}
-      {result && (
-        <div className="mt-8 space-y-4">
-          {/* 메인 나이 표시 */}
-          <div className="bg-orange-50 rounded-xl p-5 border border-orange-200 text-center">
-            <p className="text-gray-600 text-sm mb-1">만 나이</p>
-            <p className="text-4xl font-bold text-orange-600">{result.koreanAge}세</p>
-            <p className="text-gray-500 text-xs mt-2">
-              (세는 나이: {result.yearAge}세)
-            </p>
-          </div>
-
-          {/* 상세 정보 그리드 */}
-          <div className="grid grid-cols-2 gap-3">
-            <div className="bg-gray-50 rounded-lg p-4 text-center">
-              <p className="text-gray-500 text-xs mb-1">살아온 날</p>
-              <p className="text-xl font-bold text-gray-800">{result.totalDays.toLocaleString()}일</p>
-            </div>
-            <div className="bg-gray-50 rounded-lg p-4 text-center">
-              <p className="text-gray-500 text-xs mb-1">살아온 주</p>
-              <p className="text-xl font-bold text-gray-800">{result.totalWeeks.toLocaleString()}주</p>
-            </div>
-            <div className="bg-gray-50 rounded-lg p-4 text-center">
-              <p className="text-gray-500 text-xs mb-1">살아온 개월</p>
-              <p className="text-xl font-bold text-gray-800">{result.totalMonths.toLocaleString()}개월</p>
-            </div>
-            <div className="bg-blue-50 rounded-lg p-4 text-center">
-              <p className="text-gray-500 text-xs mb-1">다음 생일까지</p>
-              <p className="text-xl font-bold text-blue-600">D-{result.daysUntilBirthday}</p>
+            <div>
+              <label className="block text-sm font-medium text-[var(--foreground)] mb-2">
+                <Calendar className="w-4 h-4 inline mr-1" />
+                기준일 (오늘)
+              </label>
+              <input
+                type="date"
+                value={targetDate}
+                onChange={(e: React.ChangeEvent<HTMLInputElement>) => setTargetDate(e.target.value)}
+                className="w-full px-4 py-3 border border-[var(--border)] rounded-xl bg-[var(--background)] text-[var(--foreground)] focus:outline-none focus:ring-2 focus:ring-[var(--primary)]"
+              />
             </div>
           </div>
 
-          {/* 띠와 별자리 */}
-          <div className="flex gap-3">
-            <div className="flex-1 bg-yellow-50 rounded-lg p-4 text-center border border-yellow-200">
-              <p className="text-gray-500 text-xs mb-1">띠</p>
-              <p className="text-lg font-bold text-yellow-700">{result.zodiac}띠</p>
-            </div>
-            <div className="flex-1 bg-purple-50 rounded-lg p-4 text-center border border-purple-200">
-              <p className="text-gray-500 text-xs mb-1">별자리</p>
-              <p className="text-lg font-bold text-purple-700">{result.constellation}</p>
-            </div>
-          </div>
-
-          {/* 띠동갑 정보 */}
-          <div className="bg-gradient-to-r from-amber-50 to-orange-50 rounded-xl p-5 border border-amber-200">
-            <p className="text-center text-gray-600 text-sm font-medium mb-3">
-              🐾 띠동갑 ({result.zodiac}띠)
-            </p>
-            <div className="flex gap-3">
-              <div className="flex-1 bg-white rounded-lg p-3 text-center shadow-sm">
-                <p className="text-gray-500 text-xs mb-1">위 띠동갑</p>
-                <p className="text-lg font-bold text-amber-700">{result.olderTtidongGap}년생</p>
-                <p className="text-gray-400 text-xs mt-1">12살 위</p>
+          {/* 결과 영역 */}
+          {result && (
+            <div className="mt-8 space-y-4">
+              {/* 메인 나이 표시 */}
+              <div className="bg-[var(--primary)]/10 rounded-xl p-5 border border-[var(--primary)]/20 text-center">
+                <p className="text-[var(--muted-foreground)] text-sm mb-1">만 나이</p>
+                <p className="text-4xl font-bold text-[var(--primary)]">{result.koreanAge}세</p>
+                <p className="text-[var(--muted-foreground)] text-xs mt-2">
+                  (세는 나이: {result.yearAge}세)
+                </p>
               </div>
-              <div className="flex-1 bg-amber-100 rounded-lg p-3 text-center">
-                <p className="text-gray-500 text-xs mb-1">본인</p>
-                <p className="text-lg font-bold text-amber-800">{result.birthYear}년생</p>
-                <p className="text-gray-400 text-xs mt-1">{result.zodiac}띠</p>
+
+              {/* 상세 정보 그리드 */}
+              <div className="grid grid-cols-2 gap-3">
+                <div className="bg-[var(--secondary)] rounded-lg p-4 text-center">
+                  <p className="text-[var(--muted-foreground)] text-xs mb-1">살아온 날</p>
+                  <p className="text-xl font-bold text-[var(--foreground)]">{result.totalDays.toLocaleString()}일</p>
+                </div>
+                <div className="bg-[var(--secondary)] rounded-lg p-4 text-center">
+                  <p className="text-[var(--muted-foreground)] text-xs mb-1">살아온 주</p>
+                  <p className="text-xl font-bold text-[var(--foreground)]">{result.totalWeeks.toLocaleString()}주</p>
+                </div>
+                <div className="bg-[var(--secondary)] rounded-lg p-4 text-center">
+                  <p className="text-[var(--muted-foreground)] text-xs mb-1">살아온 개월</p>
+                  <p className="text-xl font-bold text-[var(--foreground)]">{result.totalMonths.toLocaleString()}개월</p>
+                </div>
+                <div className="bg-[var(--accent)]/10 rounded-lg p-4 text-center">
+                  <p className="text-[var(--muted-foreground)] text-xs mb-1">다음 생일까지</p>
+                  <p className="text-xl font-bold text-[var(--accent)]">D-{result.daysUntilBirthday}</p>
+                </div>
               </div>
-              <div className="flex-1 bg-white rounded-lg p-3 text-center shadow-sm">
-                <p className="text-gray-500 text-xs mb-1">아래 띠동갑</p>
-                <p className="text-lg font-bold text-amber-700">{result.youngerTtidongGap}년생</p>
-                <p className="text-gray-400 text-xs mt-1">12살 아래</p>
+
+              {/* 띠와 별자리 */}
+              <div className="flex gap-3">
+                <div className="flex-1 bg-amber-500/10 rounded-lg p-4 text-center border border-amber-500/20">
+                  <p className="text-[var(--muted-foreground)] text-xs mb-1">띠</p>
+                  <p className="text-lg font-bold text-amber-600 dark:text-amber-400">{result.zodiac}띠</p>
+                </div>
+                <div className="flex-1 bg-purple-500/10 rounded-lg p-4 text-center border border-purple-500/20">
+                  <Star className="w-4 h-4 inline text-purple-500 mb-1" />
+                  <p className="text-[var(--muted-foreground)] text-xs mb-1">별자리</p>
+                  <p className="text-lg font-bold text-purple-600 dark:text-purple-400">{result.constellation}</p>
+                </div>
+              </div>
+
+              {/* 띠동갑 정보 */}
+              <div className="bg-gradient-to-r from-amber-500/10 to-orange-500/10 rounded-xl p-5 border border-amber-500/20">
+                <p className="text-center text-[var(--foreground)] text-sm font-medium mb-3">
+                  <Info className="w-4 h-4 inline mr-1" />
+                  띠동갑 ({result.zodiac}띠)
+                </p>
+                <div className="flex gap-3">
+                  <div className="flex-1 bg-[var(--card)] rounded-lg p-3 text-center shadow-sm">
+                    <p className="text-[var(--muted-foreground)] text-xs mb-1">위 띠동갑</p>
+                    <p className="text-lg font-bold text-amber-600 dark:text-amber-400">{result.olderTtidongGap}년생</p>
+                    <p className="text-[var(--muted-foreground)] text-xs mt-1">12살 위</p>
+                  </div>
+                  <div className="flex-1 bg-amber-500/20 rounded-lg p-3 text-center">
+                    <p className="text-[var(--muted-foreground)] text-xs mb-1">본인</p>
+                    <p className="text-lg font-bold text-amber-700 dark:text-amber-300">{result.birthYear}년생</p>
+                    <p className="text-[var(--muted-foreground)] text-xs mt-1">{result.zodiac}띠</p>
+                  </div>
+                  <div className="flex-1 bg-[var(--card)] rounded-lg p-3 text-center shadow-sm">
+                    <p className="text-[var(--muted-foreground)] text-xs mb-1">아래 띠동갑</p>
+                    <p className="text-lg font-bold text-amber-600 dark:text-amber-400">{result.youngerTtidongGap}년생</p>
+                    <p className="text-[var(--muted-foreground)] text-xs mt-1">12살 아래</p>
+                  </div>
+                </div>
               </div>
             </div>
-          </div>
-        </div>
-      )}
+          )}
 
-      {!result && birthDate && (
-        <div className="mt-8 text-center text-red-500">
-          기준일이 생년월일보다 이전입니다.
-        </div>
-      )}
+          {!result && birthDate && (
+            <div className="mt-8 text-center text-red-500">
+              기준일이 생년월일보다 이전입니다.
+            </div>
+          )}
 
-      {!birthDate && (
-        <div className="mt-8 text-center text-gray-400">
-          생년월일을 입력해주세요.
+          {!birthDate && (
+            <div className="mt-8 text-center text-[var(--muted-foreground)]">
+              생년월일을 입력해주세요.
+            </div>
+          )}
         </div>
-      )}
-      </div>
-    </>
+      </main>
+      <Footer />
+    </div>
   );
 }
