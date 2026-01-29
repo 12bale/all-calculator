@@ -1,6 +1,6 @@
 "use client";
 
-import { useRef, useState, useCallback } from "react";
+import { useRef, useState } from "react";
 import dynamic from "next/dynamic";
 import Link from "next/link";
 import {
@@ -30,7 +30,6 @@ import {
   MessageCircle,
   Lightbulb,
   Info,
-  Download,
   Check,
   Loader2,
   Activity,
@@ -69,38 +68,7 @@ interface ResultCardProps {
 
 export default function ResultCard({ result, onReset, onShowReport }: ResultCardProps) {
   const resultRef = useRef<HTMLDivElement>(null);
-  const captureRef = useRef<HTMLDivElement>(null);
-  const [isCapturing, setIsCapturing] = useState(false);
   const [isCopied, setIsCopied] = useState(false);
-
-  // 이미지로 저장
-  const handleSaveImage = useCallback(async () => {
-    if (!captureRef.current || isCapturing) return;
-
-    setIsCapturing(true);
-    try {
-      const html2canvas = (await import("html2canvas")).default;
-
-      const canvas = await html2canvas(captureRef.current, {
-        backgroundColor: null,
-        scale: 2,
-        useCORS: true,
-        logging: false,
-        windowWidth: 600,
-      });
-
-      // 다운로드
-      const link = document.createElement("a");
-      link.download = `wealth-tier-${result.combinedTier.tierEn.toLowerCase()}-${Date.now()}.png`;
-      link.href = canvas.toDataURL("image/png");
-      link.click();
-    } catch (error) {
-      console.error("이미지 저장 실패:", error);
-      alert("이미지 저장에 실패했습니다.");
-    } finally {
-      setIsCapturing(false);
-    }
-  }, [result.combinedTier.tierEn, isCapturing]);
 
   // 텍스트 공유
   const handleShareText = async () => {
@@ -216,11 +184,7 @@ ${result.ageGroup} 기준 상위 ${(100 - result.combinedPercentile).toFixed(1)}
 
   return (
     <div ref={resultRef} className="w-full max-w-2xl mx-auto space-y-6 animate-fade-in">
-      {/* 캡처 영역 시작 */}
-      <div
-        ref={captureRef}
-        className="space-y-6 bg-[var(--background)] p-1 rounded-2xl"
-      >
+      <div className="space-y-6">
         {/* 메인 티어 카드 */}
         <div
           className="relative overflow-hidden rounded-2xl p-6 md:p-8 shadow-2xl border border-[var(--border)]"
@@ -528,24 +492,9 @@ ${result.ageGroup} 기준 상위 ${(100 - result.combinedPercentile).toFixed(1)}
           </div>
         </div>
       </div>
-      {/* 캡처 영역 끝 */}
 
       {/* 공유 버튼들 */}
-      <div className="grid grid-cols-3 gap-3">
-        <button
-          onClick={handleSaveImage}
-          disabled={isCapturing}
-          className="py-3 px-4 bg-[var(--primary)] text-[var(--primary-foreground)]
-            font-semibold rounded-xl hover:opacity-90 transition-all duration-200
-            flex items-center justify-center gap-2 shadow-lg disabled:opacity-50"
-        >
-          {isCapturing ? (
-            <Loader2 className="w-5 h-5 animate-spin" />
-          ) : (
-            <Download className="w-5 h-5" />
-          )}
-          <span className="hidden sm:inline">{isCapturing ? "저장 중..." : "이미지 저장"}</span>
-        </button>
+      <div className="grid grid-cols-2 gap-3">
         <button
           onClick={handleShareText}
           className="py-3 px-4 bg-[var(--accent)] text-[var(--accent-foreground)]
