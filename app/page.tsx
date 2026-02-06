@@ -2,7 +2,7 @@
 
 import { useState, useMemo } from 'react';
 import Link from 'next/link';
-import { Sparkles, Search, X, ChevronRight, TrendingUp, Wallet, BarChart3, Calculator, Calendar, Shield, Cake, Heart, Laptop, Percent, Gift, Type } from 'lucide-react';
+import { Sparkles, Search, X, ChevronRight, TrendingUp, Wallet, BarChart3, Calculator, Calendar, Shield, Cake, Heart, Laptop, Percent, Gift, Building2, Type } from 'lucide-react';
 import Navigation from './components/Navigation';
 import Footer from './components/Footer';
 
@@ -35,6 +35,15 @@ const toolCards = [
     icon: <BarChart3 className="w-6 h-6" />,
     color: 'indigo',
     keywords: ['자산', '성장', '복리', '적립', '배당', '투자', 'SCHD', '시뮬레이터'],
+  },
+  {
+    id: 'etf',
+    href: '/etf-calculator',
+    title: 'ETF 배당금 역산 계산기',
+    description: '"월 100만원 배당 받으려면?" JEPI, SCHD 등 인기 ETF로 목표 배당금에 필요한 투자금을 계산하세요.',
+    icon: <Building2 className="w-6 h-6" />,
+    color: 'purple',
+    keywords: ['ETF', 'JEPI', 'SCHD', 'JEPQ', '배당', '배당금', '월배당', '투자', '패시브인컴', '배당투자'],
   },
   {
     id: 'rate',
