@@ -2,7 +2,7 @@
 
 import { useState, useMemo } from 'react';
 import Link from 'next/link';
-import { Sparkles, Search, X, ChevronRight, TrendingUp, Wallet, BarChart3, Calculator, Calendar, Shield, Cake, Heart, Laptop, Percent, Gift } from 'lucide-react';
+import { Sparkles, Search, X, ChevronRight, TrendingUp, Wallet, BarChart3, Calculator, Calendar, Shield, Cake, Heart, Laptop, Percent, Gift, Type } from 'lucide-react';
 import Navigation from './components/Navigation';
 import Footer from './components/Footer';
 
@@ -107,6 +107,15 @@ const toolCards = [
     icon: <Gift className="w-6 h-6" />,
     color: 'indigo',
     keywords: ['청년', '청년도약계좌', '청년희망적금', '소득세감면', '청년정책', '청년혜택', '지원금'],
+  },
+  {
+    id: 'character-counter',
+    href: '/character-counter',
+    title: '글자 수 세기',
+    description: '자소서 작성이나 SMS/LMS 발송 시 필요한 글자 수(공백 포함/제외)와 바이트 용량을 계산합니다.',
+    icon: <Type className="w-6 h-6" />,
+    color: 'cyan',
+    keywords: ['글자수', '바이트', 'SMS', 'LMS', '자소서', '문자', '글자세기', '텍스트'],
   },
 ];
 
