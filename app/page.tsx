@@ -2,12 +2,22 @@
 
 import { useState, useMemo } from 'react';
 import Link from 'next/link';
-import { Sparkles, Search, X, ChevronRight, TrendingUp, Wallet, BarChart3, Calculator, Calendar, Shield, Cake, Heart, Laptop, Percent, Gift, Building2, Type, RefreshCw } from 'lucide-react';
+import { Sparkles, Search, X, ChevronRight, TrendingUp, Wallet, BarChart3, Calculator, Calendar, Shield, Cake, Heart, Laptop, Percent, Gift, Building2, Type, RefreshCw, DollarSign, Users, Wrench } from 'lucide-react';
 import Navigation from './components/Navigation';
 import Footer from './components/Footer';
 
+// 카테고리 정의
+type Category = 'finance' | 'life' | 'utility';
+
+const categories: { id: Category; label: string; icon: React.ReactNode; description: string }[] = [
+  { id: 'finance', label: '재테크', icon: <DollarSign className="w-5 h-5" />, description: '자산, 투자, 세금 계산' },
+  { id: 'life', label: '생활', icon: <Users className="w-5 h-5" />, description: '나이, 기념일, 결혼' },
+  { id: 'utility', label: '유틸리티', icon: <Wrench className="w-5 h-5" />, description: '퍼센트, 글자수 등' },
+];
+
 // 카드 데이터 정의
 const toolCards = [
+  // 재테크 카테고리
   {
     id: 'tier',
     href: '/tier-calculator',
@@ -16,6 +26,7 @@ const toolCards = [
     icon: <TrendingUp className="w-6 h-6" />,
     color: 'blue',
     featured: true,
+    category: 'finance' as Category,
     keywords: ['자산', '티어', '순위', '순자산', '연봉', '상위', '다이아몬드', '플래티넘', '골드'],
   },
   {
@@ -25,6 +36,7 @@ const toolCards = [
     description: '"월 500 받으려면 연봉 얼마?" 4대보험과 세금을 공제한 실제 통장에 찍히는 돈을 확인하세요.',
     icon: <Wallet className="w-6 h-6" />,
     color: 'green',
+    category: 'finance' as Category,
     keywords: ['연봉', '실수령', '월급', '세금', '4대보험', '급여', '소득'],
   },
   {
@@ -34,6 +46,7 @@ const toolCards = [
     description: '매월 적립금과 배당 재투자를 고려한 10년 뒤 자산 가치를 계산합니다. (물가상승 반영)',
     icon: <BarChart3 className="w-6 h-6" />,
     color: 'indigo',
+    category: 'finance' as Category,
     keywords: ['자산', '성장', '복리', '적립', '배당', '투자', 'SCHD', '시뮬레이터'],
   },
   {
@@ -43,7 +56,18 @@ const toolCards = [
     description: '"월 100만원 배당 받으려면?" JEPI, SCHD 등 인기 ETF로 목표 배당금에 필요한 투자금을 계산하세요.',
     icon: <Building2 className="w-6 h-6" />,
     color: 'purple',
+    category: 'finance' as Category,
     keywords: ['ETF', 'JEPI', 'SCHD', 'JEPQ', '배당', '배당금', '월배당', '투자', '패시브인컴', '배당투자'],
+  },
+  {
+    id: 'dividend-reinvest',
+    href: '/dividend-reinvest-calculator',
+    title: '배당 재투자 시뮬레이터',
+    description: '배당금 재투자의 복리 효과를 시뮬레이션하고 경제적 자유 달성 시점을 계산합니다.',
+    icon: <RefreshCw className="w-6 h-6" />,
+    color: 'green',
+    category: 'finance' as Category,
+    keywords: ['배당', '재투자', '복리', 'SCHD', '경제적자유', '월배당', '패시브인컴', '배당성장'],
   },
   {
     id: 'rate',
@@ -52,8 +76,31 @@ const toolCards = [
     description: '내 예금 이자가 물가상승률을 이길 수 있을까? 명목금리의 함정을 피하세요.',
     icon: <Percent className="w-6 h-6" />,
     color: 'red',
+    category: 'finance' as Category,
     keywords: ['금리', '이자', '물가', '인플레이션', '예금', '실질금리'],
   },
+  {
+    id: 'freelancer',
+    href: '/freelancer-calculator',
+    title: '프리랜서 세금 계산기',
+    description: '프리랜서 수입에서 3.3% 원천징수 세금을 계산하고 실수령액을 확인하세요.',
+    icon: <Laptop className="w-6 h-6" />,
+    color: 'cyan',
+    category: 'finance' as Category,
+    keywords: ['프리랜서', '세금', '3.3', '원천징수', '실수령', '개인사업자', '외주'],
+  },
+  {
+    id: 'youth-policy',
+    href: '/youth-policy-calculator',
+    title: '청년 정책 계산기',
+    description: '나이와 소득만 입력하면 청년도약계좌, 소득세감면 등 받을 수 있는 혜택 총액을 계산합니다.',
+    icon: <Gift className="w-6 h-6" />,
+    color: 'indigo',
+    category: 'finance' as Category,
+    keywords: ['청년', '청년도약계좌', '청년희망적금', '소득세감면', '청년정책', '청년혜택', '지원금'],
+  },
+
+  // 생활 카테고리
   {
     id: 'army',
     href: '/army-calculator',
@@ -61,6 +108,7 @@ const toolCards = [
     description: '"나 언제 집에 가지?" 입대일만 넣으면 전역 D-Day와 계급별 진급일을 알려드립니다.',
     icon: <Shield className="w-6 h-6" />,
     color: 'slate',
+    category: 'life' as Category,
     keywords: ['전역', '군대', '입대', '진급', '병장', '상병', '일병', '이병'],
   },
   {
@@ -70,6 +118,7 @@ const toolCards = [
     description: '생년월일로 만 나이, 띠, 별자리, 살아온 날수를 확인하세요.',
     icon: <Cake className="w-6 h-6" />,
     color: 'orange',
+    category: 'life' as Category,
     keywords: ['나이', '생년월일', '띠', '별자리', '만나이', '세는나이', '생일'],
   },
   {
@@ -79,16 +128,8 @@ const toolCards = [
     description: '결혼일을 입력하면 몇 주년인지, 다음 기념일까지 D-Day를 알려드립니다.',
     icon: <Heart className="w-6 h-6" />,
     color: 'pink',
+    category: 'life' as Category,
     keywords: ['결혼', '기념일', '주년', '은혼식', '금혼식', '웨딩', '부부'],
-  },
-  {
-    id: 'freelancer',
-    href: '/freelancer-calculator',
-    title: '프리랜서 세금 계산기',
-    description: '프리랜서 수입에서 3.3% 원천징수 세금을 계산하고 실수령액을 확인하세요.',
-    icon: <Laptop className="w-6 h-6" />,
-    color: 'cyan',
-    keywords: ['프리랜서', '세금', '3.3', '원천징수', '실수령', '개인사업자', '외주'],
   },
   {
     id: 'wedding',
@@ -97,8 +138,11 @@ const toolCards = [
     description: '웨딩홀, 스드메, 예물, 신혼여행까지 총 예식 비용과 축의금 차감 후 실제 부담액을 계산하세요.',
     icon: <Calendar className="w-6 h-6" />,
     color: 'pink',
+    category: 'life' as Category,
     keywords: ['결혼', '예식', '웨딩', '스드메', '예물', '축의금', '신혼여행', '웨딩홀'],
   },
+
+  // 유틸리티 카테고리
   {
     id: 'percent',
     href: '/percent-calculator',
@@ -106,16 +150,8 @@ const toolCards = [
     description: '퍼센트 값 구하기, 비율 계산, 증감률까지. 다양한 퍼센트 계산을 한 번에 해결하세요.',
     icon: <Calculator className="w-6 h-6" />,
     color: 'purple',
+    category: 'utility' as Category,
     keywords: ['퍼센트', '비율', '증감률', '할인', '부가세', '비율분배', '%'],
-  },
-  {
-    id: 'youth-policy',
-    href: '/youth-policy-calculator',
-    title: '청년 정책 계산기',
-    description: '나이와 소득만 입력하면 청년도약계좌, 소득세감면 등 받을 수 있는 혜택 총액을 계산합니다.',
-    icon: <Gift className="w-6 h-6" />,
-    color: 'indigo',
-    keywords: ['청년', '청년도약계좌', '청년희망적금', '소득세감면', '청년정책', '청년혜택', '지원금'],
   },
   {
     id: 'character-counter',
@@ -124,16 +160,8 @@ const toolCards = [
     description: '자소서 작성이나 SMS/LMS 발송 시 필요한 글자 수(공백 포함/제외)와 바이트 용량을 계산합니다.',
     icon: <Type className="w-6 h-6" />,
     color: 'cyan',
+    category: 'utility' as Category,
     keywords: ['글자수', '바이트', 'SMS', 'LMS', '자소서', '문자', '글자세기', '텍스트'],
-  },
-  {
-    id: 'dividend-reinvest',
-    href: '/dividend-reinvest-calculator',
-    title: '배당 재투자 시뮬레이터',
-    description: '배당금 재투자의 복리 효과를 시뮬레이션하고 경제적 자유 달성 시점을 계산합니다.',
-    icon: <RefreshCw className="w-6 h-6" />,
-    color: 'green',
-    keywords: ['배당', '재투자', '복리', 'SCHD', '경제적자유', '월배당', '패시브인컴', '배당성장'],
   },
 ];
 
@@ -152,34 +180,57 @@ const colorStyles: Record<string, { bg: string; border: string; text: string; ic
 
 export default function Dashboard() {
   const [searchQuery, setSearchQuery] = useState('');
+  const [selectedCategory, setSelectedCategory] = useState<Category | 'all'>('all');
 
-  // 검색 필터링
+  // 검색 및 카테고리 필터링
   const filteredCards = useMemo(() => {
-    if (!searchQuery.trim()) return toolCards;
+    let cards = toolCards;
 
-    const query = searchQuery.toLowerCase();
-    return toolCards.filter(card =>
-      card.title.toLowerCase().includes(query) ||
-      card.description.toLowerCase().includes(query) ||
-      card.keywords.some(keyword => keyword.toLowerCase().includes(query))
-    );
-  }, [searchQuery]);
+    // 카테고리 필터링
+    if (selectedCategory !== 'all') {
+      cards = cards.filter(card => card.category === selectedCategory);
+    }
 
-  // Featured 카드와 일반 카드 분리
+    // 검색 필터링
+    if (searchQuery.trim()) {
+      const query = searchQuery.toLowerCase();
+      cards = cards.filter(card =>
+        card.title.toLowerCase().includes(query) ||
+        card.description.toLowerCase().includes(query) ||
+        card.keywords.some(keyword => keyword.toLowerCase().includes(query))
+      );
+    }
+
+    return cards;
+  }, [searchQuery, selectedCategory]);
+
+  // Featured 카드
   const featuredCard = toolCards.find(card => card.featured);
-  const regularCards = filteredCards.filter(card => !card.featured);
+
+  // 카테고리별 카드 개수
+  const categoryCounts = useMemo(() => {
+    const counts: Record<Category | 'all', number> = {
+      all: toolCards.length,
+      finance: toolCards.filter(c => c.category === 'finance').length,
+      life: toolCards.filter(c => c.category === 'life').length,
+      utility: toolCards.filter(c => c.category === 'utility').length,
+    };
+    return counts;
+  }, []);
+
+  const isSearching = searchQuery.trim() !== '';
 
   return (
     <main className="min-h-screen bg-[var(--background)]">
       <Navigation />
 
-      <div className="max-w-4xl mx-auto px-4 py-8">
+      <div className="max-w-6xl mx-auto px-4 py-8">
         {/* Hero Section */}
         <section className="text-center mb-10 animate-fade-in">
           <div className="inline-flex items-center gap-2 px-4 py-2 bg-[var(--secondary)] rounded-full mb-6">
             <Sparkles className="w-4 h-4 text-[var(--primary)]" />
             <span className="text-sm text-[var(--secondary-foreground)]">
-              10개 이상의 계산기를 한 곳에서
+              15개 이상의 계산기를 한 곳에서
             </span>
           </div>
 
@@ -220,7 +271,7 @@ export default function Dashboard() {
         </div>
 
         {/* Featured Card - 자산 티어 계산기 */}
-        {featuredCard && !searchQuery && (
+        {featuredCard && !isSearching && selectedCategory === 'all' && (
           <Link
             href={featuredCard.href}
             className="block mb-8 group animate-slide-up"
@@ -260,61 +311,184 @@ export default function Dashboard() {
           </Link>
         )}
 
-        {/* 검색 결과 없음 */}
-        {filteredCards.length === 0 && (
-          <div className="text-center py-10">
-            <p className="text-[var(--muted-foreground)]">
-              &quot;{searchQuery}&quot;에 대한 검색 결과가 없습니다.
-            </p>
-          </div>
-        )}
-
-        {/* 카드 그리드 */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-          {(searchQuery ? filteredCards : regularCards).map((card) => {
-            const style = colorStyles[card.color];
-            return (
-              <Link
-                key={card.id}
-                href={card.href}
-                className="group bg-[var(--card)] p-5 rounded-xl shadow-lg border border-[var(--border)]
-                  hover:shadow-xl hover:-translate-y-1 transition-all duration-300"
-              >
-                <div className={`mb-4 ${style.iconBg} w-12 h-12 rounded-xl flex items-center justify-center text-white
-                  group-hover:scale-110 transition-transform`}
-                >
-                  {card.icon}
+        {/* 사이드바 + 메인 콘텐츠 레이아웃 */}
+        <div className="flex flex-col lg:flex-row gap-6">
+          {/* 왼쪽 사이드바 - 카테고리 */}
+          <aside className="lg:w-64 flex-shrink-0">
+            <div className="lg:sticky lg:top-8">
+              <div className="bg-[var(--card)] rounded-2xl shadow-lg border border-[var(--border)] overflow-hidden">
+                <div className="p-4 bg-[var(--secondary)] border-b border-[var(--border)]">
+                  <h3 className="font-bold text-[var(--foreground)]">카테고리</h3>
                 </div>
-                <h3 className="text-lg font-bold text-[var(--card-foreground)] mb-2 group-hover:text-[var(--primary)] transition-colors">
-                  {card.title}
-                </h3>
-                <p className="text-sm text-[var(--muted-foreground)] mb-4 line-clamp-2">
-                  {card.description}
+
+                <nav className="p-2">
+                  {/* 전체 */}
+                  <button
+                    onClick={() => setSelectedCategory('all')}
+                    className={`w-full flex items-center justify-between p-3 rounded-xl transition-all mb-1 ${
+                      selectedCategory === 'all'
+                        ? 'bg-[var(--primary)] text-[var(--primary-foreground)]'
+                        : 'hover:bg-[var(--secondary)] text-[var(--foreground)]'
+                    }`}
+                  >
+                    <div className="flex items-center gap-3">
+                      <Sparkles className="w-5 h-5" />
+                      <span className="font-medium">전체</span>
+                    </div>
+                    <span className={`text-sm px-2 py-0.5 rounded-full ${
+                      selectedCategory === 'all'
+                        ? 'bg-white/20'
+                        : 'bg-[var(--secondary)]'
+                    }`}>
+                      {categoryCounts.all}
+                    </span>
+                  </button>
+
+                  {/* 카테고리 목록 */}
+                  {categories.map((cat) => (
+                    <button
+                      key={cat.id}
+                      onClick={() => setSelectedCategory(cat.id)}
+                      className={`w-full flex items-center justify-between p-3 rounded-xl transition-all mb-1 ${
+                        selectedCategory === cat.id
+                          ? 'bg-[var(--primary)] text-[var(--primary-foreground)]'
+                          : 'hover:bg-[var(--secondary)] text-[var(--foreground)]'
+                      }`}
+                    >
+                      <div className="flex items-center gap-3">
+                        {cat.icon}
+                        <div className="text-left">
+                          <span className="font-medium block">{cat.label}</span>
+                          <span className={`text-xs ${
+                            selectedCategory === cat.id
+                              ? 'text-white/70'
+                              : 'text-[var(--muted-foreground)]'
+                          }`}>
+                            {cat.description}
+                          </span>
+                        </div>
+                      </div>
+                      <span className={`text-sm px-2 py-0.5 rounded-full ${
+                        selectedCategory === cat.id
+                          ? 'bg-white/20'
+                          : 'bg-[var(--secondary)]'
+                      }`}>
+                        {categoryCounts[cat.id]}
+                      </span>
+                    </button>
+                  ))}
+                </nav>
+
+                {/* 계산기 요청 */}
+                <div className="p-4 border-t border-[var(--border)]">
+                  <a
+                    href="https://forms.gle/BGuoqhngkSg1y7596"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="block w-full text-center px-4 py-2.5 bg-[var(--secondary)] hover:bg-[var(--muted)]
+                      text-[var(--foreground)] rounded-xl text-sm font-medium transition-all"
+                  >
+                    + 계산기 요청하기
+                  </a>
+                </div>
+              </div>
+            </div>
+          </aside>
+
+          {/* 오른쪽 메인 콘텐츠 */}
+          <div className="flex-1">
+            {/* 현재 카테고리 헤더 */}
+            {!isSearching && (
+              <div className="flex items-center justify-between mb-6">
+                <div className="flex items-center gap-3">
+                  <div className="p-2 bg-[var(--primary)]/10 rounded-lg text-[var(--primary)]">
+                    {selectedCategory === 'all' ? (
+                      <Sparkles className="w-5 h-5" />
+                    ) : (
+                      categories.find(c => c.id === selectedCategory)?.icon
+                    )}
+                  </div>
+                  <div>
+                    <h2 className="text-xl font-bold text-[var(--foreground)]">
+                      {selectedCategory === 'all' ? '전체 계산기' : categories.find(c => c.id === selectedCategory)?.label}
+                    </h2>
+                    <p className="text-sm text-[var(--muted-foreground)]">
+                      {selectedCategory === 'all'
+                        ? '모든 계산기를 한눈에 확인하세요'
+                        : categories.find(c => c.id === selectedCategory)?.description}
+                    </p>
+                  </div>
+                </div>
+                <span className="text-sm text-[var(--muted-foreground)]">
+                  {filteredCards.length}개
+                </span>
+              </div>
+            )}
+
+            {/* 검색 결과 헤더 */}
+            {isSearching && (
+              <div className="mb-6">
+                <h2 className="text-xl font-bold text-[var(--foreground)]">
+                  &quot;{searchQuery}&quot; 검색 결과
+                </h2>
+                <p className="text-sm text-[var(--muted-foreground)]">
+                  {filteredCards.length}개의 계산기를 찾았습니다
                 </p>
-                <div className={`${style.text} text-sm font-semibold flex items-center`}>
-                  계산하기
-                  <ChevronRight className="w-4 h-4 ml-1 group-hover:translate-x-1 transition-transform" />
-                </div>
-              </Link>
-            );
-          })}
-        </div>
+              </div>
+            )}
 
-        {/* 빠른 링크 섹션 */}
-        <div className="mt-12 bg-[var(--secondary)] rounded-xl p-6 flex flex-col md:flex-row justify-between items-center gap-4">
-          <div>
-            <h4 className="font-bold text-[var(--foreground)]">필요한 계산기가 없으신가요?</h4>
-            <p className="text-sm text-[var(--muted-foreground)]">새로운 계산기를 요청해 주세요. 계속해서 추가됩니다!</p>
+            {/* 검색 결과 없음 */}
+            {filteredCards.length === 0 && (
+              <div className="text-center py-16 bg-[var(--card)] rounded-2xl border border-[var(--border)]">
+                <div className="w-16 h-16 mx-auto mb-4 bg-[var(--secondary)] rounded-full flex items-center justify-center">
+                  <Search className="w-8 h-8 text-[var(--muted-foreground)]" />
+                </div>
+                <p className="text-[var(--foreground)] font-medium mb-2">
+                  검색 결과가 없습니다
+                </p>
+                <p className="text-sm text-[var(--muted-foreground)]">
+                  다른 키워드로 검색해 보세요
+                </p>
+              </div>
+            )}
+
+            {/* 카드 그리드 */}
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              {filteredCards
+                .filter(card => isSearching || selectedCategory !== 'all' || !card.featured)
+                .map((card) => {
+                  const style = colorStyles[card.color];
+                  return (
+                    <Link
+                      key={card.id}
+                      href={card.href}
+                      className="group bg-[var(--card)] p-5 rounded-xl shadow-lg border border-[var(--border)]
+                        hover:shadow-xl hover:-translate-y-1 transition-all duration-300"
+                    >
+                      <div className="flex items-start gap-4">
+                        <div className={`${style.iconBg} w-12 h-12 rounded-xl flex items-center justify-center text-white
+                          group-hover:scale-110 transition-transform flex-shrink-0`}
+                        >
+                          {card.icon}
+                        </div>
+                        <div className="flex-1 min-w-0">
+                          <h3 className="text-lg font-bold text-[var(--card-foreground)] mb-1 group-hover:text-[var(--primary)] transition-colors">
+                            {card.title}
+                          </h3>
+                          <p className="text-sm text-[var(--muted-foreground)] line-clamp-2 mb-3">
+                            {card.description}
+                          </p>
+                          <div className={`${style.text} text-sm font-semibold flex items-center`}>
+                            계산하기
+                            <ChevronRight className="w-4 h-4 ml-1 group-hover:translate-x-1 transition-transform" />
+                          </div>
+                        </div>
+                      </div>
+                    </Link>
+                  );
+                })}
+            </div>
           </div>
-          <a
-            href="https://forms.gle/BGuoqhngkSg1y7596"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="px-6 py-3 bg-[var(--primary)] text-[var(--primary-foreground)] rounded-xl
-              font-semibold hover:opacity-90 transition-all shadow-lg"
-          >
-            계산기 요청하기
-          </a>
         </div>
       </div>
 
