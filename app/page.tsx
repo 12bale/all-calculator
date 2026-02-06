@@ -2,7 +2,7 @@
 
 import { useState, useMemo } from 'react';
 import Link from 'next/link';
-import { Sparkles, Search, X, ChevronRight, TrendingUp, Wallet, BarChart3, Calculator, Calendar, Shield, Cake, Heart, Laptop, Percent, Gift, Building2, Type } from 'lucide-react';
+import { Sparkles, Search, X, ChevronRight, TrendingUp, Wallet, BarChart3, Calculator, Calendar, Shield, Cake, Heart, Laptop, Percent, Gift, Building2, Type, RefreshCw } from 'lucide-react';
 import Navigation from './components/Navigation';
 import Footer from './components/Footer';
 
@@ -125,6 +125,15 @@ const toolCards = [
     icon: <Type className="w-6 h-6" />,
     color: 'cyan',
     keywords: ['글자수', '바이트', 'SMS', 'LMS', '자소서', '문자', '글자세기', '텍스트'],
+  },
+  {
+    id: 'dividend-reinvest',
+    href: '/dividend-reinvest-calculator',
+    title: '배당 재투자 시뮬레이터',
+    description: '배당금 재투자의 복리 효과를 시뮬레이션하고 경제적 자유 달성 시점을 계산합니다.',
+    icon: <RefreshCw className="w-6 h-6" />,
+    color: 'green',
+    keywords: ['배당', '재투자', '복리', 'SCHD', '경제적자유', '월배당', '패시브인컴', '배당성장'],
   },
 ];
 
