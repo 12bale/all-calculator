@@ -2,7 +2,7 @@
 
 import { useState, useMemo } from 'react';
 import Link from 'next/link';
-import { Sparkles, Search, X, ChevronRight, TrendingUp, Wallet, BarChart3, Calculator, Calendar, Shield, Cake, Heart, Laptop, Percent, Gift, Building2, Type, RefreshCw, DollarSign, Users, Wrench } from 'lucide-react';
+import { Sparkles, Search, X, ChevronRight, TrendingUp, Wallet, BarChart3, Calculator, Calendar, Shield, Cake, Heart, Laptop, Percent, Gift, Building2, Type, RefreshCw, DollarSign, Users, Wrench, ArrowLeftRight } from 'lucide-react';
 import Navigation from './components/Navigation';
 import Footer from './components/Footer';
 
@@ -163,6 +163,16 @@ const toolCards = [
     category: 'utility' as Category,
     keywords: ['글자수', '바이트', 'SMS', 'LMS', '자소서', '문자', '글자세기', '텍스트'],
   },
+  {
+    id: 'unit-converter',
+    href: '/unit-converter',
+    title: '단위 변환기',
+    description: '부동산 면적(평↔㎡), 요리 계량(g↔ml↔컵), 길이, 무게, 온도 등 다양한 단위를 변환합니다.',
+    icon: <ArrowLeftRight className="w-6 h-6" />,
+    color: 'orange',
+    category: 'utility' as Category,
+    keywords: ['단위', '변환', '평', '제곱미터', '그램', '밀리리터', '온도', '길이', '무게', '컵', '큰술'],
+  },
 ];
 
 // 색상별 스타일 매핑
@@ -186,12 +196,10 @@ export default function Dashboard() {
   const filteredCards = useMemo(() => {
     let cards = toolCards;
 
-    // 카테고리 필터링
     if (selectedCategory !== 'all') {
       cards = cards.filter(card => card.category === selectedCategory);
     }
 
-    // 검색 필터링
     if (searchQuery.trim()) {
       const query = searchQuery.toLowerCase();
       cards = cards.filter(card =>
@@ -204,10 +212,8 @@ export default function Dashboard() {
     return cards;
   }, [searchQuery, selectedCategory]);
 
-  // Featured 카드
   const featuredCard = toolCards.find(card => card.featured);
 
-  // 카테고리별 카드 개수
   const categoryCounts = useMemo(() => {
     const counts: Record<Category | 'all', number> = {
       all: toolCards.length,
@@ -224,21 +230,21 @@ export default function Dashboard() {
     <main className="min-h-screen bg-[var(--background)]">
       <Navigation />
 
-      <div className="max-w-6xl mx-auto px-4 py-8">
+      <div className="max-w-6xl mx-auto px-4 py-6 sm:py-8">
         {/* Hero Section */}
-        <section className="text-center mb-10 animate-fade-in">
-          <div className="inline-flex items-center gap-2 px-4 py-2 bg-[var(--secondary)] rounded-full mb-6">
+        <section className="text-center mb-8 sm:mb-10 animate-fade-in">
+          <div className="inline-flex items-center gap-2 px-3 sm:px-4 py-1.5 sm:py-2 bg-[var(--secondary)] rounded-full mb-4 sm:mb-6">
             <Sparkles className="w-4 h-4 text-[var(--primary)]" />
-            <span className="text-sm text-[var(--secondary-foreground)]">
+            <span className="text-xs sm:text-sm text-[var(--secondary-foreground)]">
               15개 이상의 계산기를 한 곳에서
             </span>
           </div>
 
-          <h1 className="text-3xl md:text-4xl font-bold text-[var(--foreground)] mb-4 line-height-1.2 leading-tight">
+          <h1 className="text-2xl sm:text-3xl md:text-4xl font-bold text-[var(--foreground)] mb-3 sm:mb-4 leading-tight">
             일상의 모든 계산,<br />
             <span className="text-[var(--primary)]">한 곳에서</span> 해결하세요
           </h1>
-          <p className="text-[var(--muted-foreground)] max-w-md mx-auto">
+          <p className="text-sm sm:text-base text-[var(--muted-foreground)] max-w-md mx-auto">
             연봉, 자산, 나이, 기념일, 전역일까지
             <br />
             복잡한 계산은 저희에게 맡기세요
@@ -246,7 +252,7 @@ export default function Dashboard() {
         </section>
 
         {/* 검색 바 */}
-        <div className="relative max-w-md mx-auto mb-8 animate-slide-up">
+        <div className="relative max-w-md mx-auto mb-6 sm:mb-8 animate-slide-up">
           <div className="relative">
             <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-[var(--muted-foreground)]" />
             <input
@@ -257,7 +263,7 @@ export default function Dashboard() {
               className="w-full px-4 py-3 pl-12 bg-[var(--card)] border border-[var(--border)] rounded-xl
                 focus:ring-2 focus:ring-[var(--ring)] focus:border-transparent
                 text-[var(--card-foreground)] placeholder:text-[var(--muted-foreground)]
-                transition-all duration-200"
+                transition-all duration-200 text-sm sm:text-base"
             />
             {searchQuery && (
               <button
@@ -270,39 +276,39 @@ export default function Dashboard() {
           </div>
         </div>
 
-        {/* Featured Card - 자산 티어 계산기 */}
+        {/* Featured Card */}
         {featuredCard && !isSearching && selectedCategory === 'all' && (
           <Link
             href={featuredCard.href}
-            className="block mb-8 group animate-slide-up"
+            className="block mb-6 sm:mb-8 group animate-slide-up"
           >
-            <div className="relative overflow-hidden rounded-2xl p-6 md:p-8 shadow-xl border border-[var(--border)]
+            <div className="relative overflow-hidden rounded-2xl p-5 sm:p-6 md:p-8 shadow-xl border border-[var(--border)]
               bg-gradient-to-br from-[var(--card)] via-[var(--card)] to-blue-500/10
               hover:shadow-2xl transition-all duration-300 hover:-translate-y-1"
             >
-              <div className="absolute top-0 right-0 w-64 h-64 opacity-10 blur-3xl bg-blue-500" />
+              <div className="absolute top-0 right-0 w-40 sm:w-64 h-40 sm:h-64 opacity-10 blur-3xl bg-blue-500" />
 
-              <div className="relative flex flex-col md:flex-row items-start md:items-center gap-6">
-                <div className="p-4 bg-blue-500 rounded-2xl text-white shadow-lg group-hover:scale-110 transition-transform">
+              <div className="relative flex items-center gap-4 sm:gap-6">
+                <div className="p-3 sm:p-4 bg-blue-500 rounded-xl sm:rounded-2xl text-white shadow-lg group-hover:scale-110 transition-transform flex-shrink-0">
                   {featuredCard.icon}
                 </div>
 
-                <div className="flex-1">
-                  <div className="flex items-center gap-2 mb-2">
-                    <span className="px-2 py-1 text-xs font-medium bg-blue-500/20 text-blue-500 rounded-full">
+                <div className="flex-1 min-w-0">
+                  <div className="flex items-center gap-2 mb-1 sm:mb-2">
+                    <span className="px-2 py-0.5 text-xs font-medium bg-blue-500/20 text-blue-500 rounded-full">
                       NEW
                     </span>
                     <span className="text-xs text-[var(--muted-foreground)]">추천</span>
                   </div>
-                  <h2 className="text-xl md:text-2xl font-bold text-[var(--card-foreground)] mb-2">
+                  <h2 className="text-lg sm:text-xl md:text-2xl font-bold text-[var(--card-foreground)] mb-1">
                     {featuredCard.title}
                   </h2>
-                  <p className="text-[var(--muted-foreground)]">
+                  <p className="text-sm text-[var(--muted-foreground)] line-clamp-2">
                     {featuredCard.description}
                   </p>
                 </div>
 
-                <div className="flex items-center gap-2 text-blue-500 font-medium">
+                <div className="hidden sm:flex items-center gap-2 text-blue-500 font-medium flex-shrink-0">
                   <span>계산하기</span>
                   <ChevronRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
                 </div>
@@ -313,16 +319,53 @@ export default function Dashboard() {
 
         {/* 사이드바 + 메인 콘텐츠 레이아웃 */}
         <div className="flex flex-col lg:flex-row gap-6">
-          {/* 왼쪽 사이드바 - 카테고리 */}
-          <aside className="lg:w-64 flex-shrink-0">
-            <div className="lg:sticky lg:top-8">
+
+          {/* 모바일: 가로 스크롤 카테고리 탭 */}
+          <div className="lg:hidden">
+            <div className="flex gap-2 overflow-x-auto pb-2 -mx-4 px-4 scrollbar-hide">
+              <button
+                onClick={() => setSelectedCategory('all')}
+                className={`flex items-center gap-2 px-4 py-2.5 rounded-xl text-sm font-medium whitespace-nowrap transition-all flex-shrink-0 ${
+                  selectedCategory === 'all'
+                    ? 'bg-[var(--primary)] text-[var(--primary-foreground)] shadow-md'
+                    : 'bg-[var(--card)] border border-[var(--border)] text-[var(--muted-foreground)]'
+                }`}
+              >
+                <Sparkles className="w-4 h-4" />
+                전체
+                <span className={`text-xs px-1.5 py-0.5 rounded-full ${
+                  selectedCategory === 'all' ? 'bg-white/20' : 'bg-[var(--secondary)]'
+                }`}>{categoryCounts.all}</span>
+              </button>
+              {categories.map((cat) => (
+                <button
+                  key={cat.id}
+                  onClick={() => setSelectedCategory(cat.id)}
+                  className={`flex items-center gap-2 px-4 py-2.5 rounded-xl text-sm font-medium whitespace-nowrap transition-all flex-shrink-0 ${
+                    selectedCategory === cat.id
+                      ? 'bg-[var(--primary)] text-[var(--primary-foreground)] shadow-md'
+                      : 'bg-[var(--card)] border border-[var(--border)] text-[var(--muted-foreground)]'
+                  }`}
+                >
+                  {cat.icon}
+                  {cat.label}
+                  <span className={`text-xs px-1.5 py-0.5 rounded-full ${
+                    selectedCategory === cat.id ? 'bg-white/20' : 'bg-[var(--secondary)]'
+                  }`}>{categoryCounts[cat.id]}</span>
+                </button>
+              ))}
+            </div>
+          </div>
+
+          {/* 데스크톱: 왼쪽 사이드바 */}
+          <aside className="hidden lg:block lg:w-64 flex-shrink-0">
+            <div className="sticky top-8">
               <div className="bg-[var(--card)] rounded-2xl shadow-lg border border-[var(--border)] overflow-hidden">
                 <div className="p-4 bg-[var(--secondary)] border-b border-[var(--border)]">
                   <h3 className="font-bold text-[var(--foreground)]">카테고리</h3>
                 </div>
 
                 <nav className="p-2">
-                  {/* 전체 */}
                   <button
                     onClick={() => setSelectedCategory('all')}
                     className={`w-full flex items-center justify-between p-3 rounded-xl transition-all mb-1 ${
@@ -344,7 +387,6 @@ export default function Dashboard() {
                     </span>
                   </button>
 
-                  {/* 카테고리 목록 */}
                   {categories.map((cat) => (
                     <button
                       key={cat.id}
@@ -379,7 +421,6 @@ export default function Dashboard() {
                   ))}
                 </nav>
 
-                {/* 계산기 요청 */}
                 <div className="p-4 border-t border-[var(--border)]">
                   <a
                     href="https://forms.gle/BGuoqhngkSg1y7596"
@@ -396,10 +437,10 @@ export default function Dashboard() {
           </aside>
 
           {/* 오른쪽 메인 콘텐츠 */}
-          <div className="flex-1">
+          <div className="flex-1 min-w-0">
             {/* 현재 카테고리 헤더 */}
             {!isSearching && (
-              <div className="flex items-center justify-between mb-6">
+              <div className="flex items-center justify-between mb-4 sm:mb-6">
                 <div className="flex items-center gap-3">
                   <div className="p-2 bg-[var(--primary)]/10 rounded-lg text-[var(--primary)]">
                     {selectedCategory === 'all' ? (
@@ -409,17 +450,17 @@ export default function Dashboard() {
                     )}
                   </div>
                   <div>
-                    <h2 className="text-xl font-bold text-[var(--foreground)]">
+                    <h2 className="text-lg sm:text-xl font-bold text-[var(--foreground)]">
                       {selectedCategory === 'all' ? '전체 계산기' : categories.find(c => c.id === selectedCategory)?.label}
                     </h2>
-                    <p className="text-sm text-[var(--muted-foreground)]">
+                    <p className="text-xs sm:text-sm text-[var(--muted-foreground)]">
                       {selectedCategory === 'all'
                         ? '모든 계산기를 한눈에 확인하세요'
                         : categories.find(c => c.id === selectedCategory)?.description}
                     </p>
                   </div>
                 </div>
-                <span className="text-sm text-[var(--muted-foreground)]">
+                <span className="text-xs sm:text-sm text-[var(--muted-foreground)]">
                   {filteredCards.length}개
                 </span>
               </div>
@@ -427,11 +468,11 @@ export default function Dashboard() {
 
             {/* 검색 결과 헤더 */}
             {isSearching && (
-              <div className="mb-6">
-                <h2 className="text-xl font-bold text-[var(--foreground)]">
+              <div className="mb-4 sm:mb-6">
+                <h2 className="text-lg sm:text-xl font-bold text-[var(--foreground)]">
                   &quot;{searchQuery}&quot; 검색 결과
                 </h2>
-                <p className="text-sm text-[var(--muted-foreground)]">
+                <p className="text-xs sm:text-sm text-[var(--muted-foreground)]">
                   {filteredCards.length}개의 계산기를 찾았습니다
                 </p>
               </div>
@@ -439,9 +480,9 @@ export default function Dashboard() {
 
             {/* 검색 결과 없음 */}
             {filteredCards.length === 0 && (
-              <div className="text-center py-16 bg-[var(--card)] rounded-2xl border border-[var(--border)]">
-                <div className="w-16 h-16 mx-auto mb-4 bg-[var(--secondary)] rounded-full flex items-center justify-center">
-                  <Search className="w-8 h-8 text-[var(--muted-foreground)]" />
+              <div className="text-center py-12 sm:py-16 bg-[var(--card)] rounded-2xl border border-[var(--border)]">
+                <div className="w-14 h-14 sm:w-16 sm:h-16 mx-auto mb-4 bg-[var(--secondary)] rounded-full flex items-center justify-center">
+                  <Search className="w-7 h-7 sm:w-8 sm:h-8 text-[var(--muted-foreground)]" />
                 </div>
                 <p className="text-[var(--foreground)] font-medium mb-2">
                   검색 결과가 없습니다
@@ -453,7 +494,7 @@ export default function Dashboard() {
             )}
 
             {/* 카드 그리드 */}
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4">
               {filteredCards
                 .filter(card => isSearching || selectedCategory !== 'all' || !card.featured)
                 .map((card) => {
@@ -462,31 +503,46 @@ export default function Dashboard() {
                     <Link
                       key={card.id}
                       href={card.href}
-                      className="group bg-[var(--card)] p-5 rounded-xl shadow-lg border border-[var(--border)]
+                      className="group bg-[var(--card)] p-4 sm:p-5 rounded-xl shadow-lg border border-[var(--border)]
                         hover:shadow-xl hover:-translate-y-1 transition-all duration-300"
                     >
-                      <div className="flex items-start gap-4">
-                        <div className={`${style.iconBg} w-12 h-12 rounded-xl flex items-center justify-center text-white
+                      <div className="flex items-start gap-3 sm:gap-4">
+                        <div className={`${style.iconBg} w-10 h-10 sm:w-12 sm:h-12 rounded-lg sm:rounded-xl flex items-center justify-center text-white
                           group-hover:scale-110 transition-transform flex-shrink-0`}
                         >
                           {card.icon}
                         </div>
                         <div className="flex-1 min-w-0">
-                          <h3 className="text-lg font-bold text-[var(--card-foreground)] mb-1 group-hover:text-[var(--primary)] transition-colors">
+                          <h3 className="text-base sm:text-lg font-bold text-[var(--card-foreground)] mb-0.5 sm:mb-1 group-hover:text-[var(--primary)] transition-colors truncate">
                             {card.title}
                           </h3>
-                          <p className="text-sm text-[var(--muted-foreground)] line-clamp-2 mb-3">
+                          <p className="text-xs sm:text-sm text-[var(--muted-foreground)] line-clamp-2 mb-2 sm:mb-3">
                             {card.description}
                           </p>
-                          <div className={`${style.text} text-sm font-semibold flex items-center`}>
+                          <div className={`${style.text} text-xs sm:text-sm font-semibold flex items-center`}>
                             계산하기
-                            <ChevronRight className="w-4 h-4 ml-1 group-hover:translate-x-1 transition-transform" />
+                            <ChevronRight className="w-3.5 h-3.5 sm:w-4 sm:h-4 ml-1 group-hover:translate-x-1 transition-transform" />
                           </div>
                         </div>
                       </div>
                     </Link>
                   );
                 })}
+            </div>
+
+            {/* 모바일 계산기 요청 */}
+            <div className="lg:hidden mt-8 bg-[var(--secondary)] rounded-xl p-5 text-center">
+              <h4 className="font-bold text-[var(--foreground)] mb-1">필요한 계산기가 없으신가요?</h4>
+              <p className="text-xs text-[var(--muted-foreground)] mb-3">새로운 계산기를 요청해 주세요!</p>
+              <a
+                href="https://forms.gle/BGuoqhngkSg1y7596"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-block px-5 py-2.5 bg-[var(--primary)] text-[var(--primary-foreground)] rounded-xl
+                  font-semibold hover:opacity-90 transition-all shadow-lg text-sm"
+              >
+                계산기 요청하기
+              </a>
             </div>
           </div>
         </div>
