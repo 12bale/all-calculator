@@ -99,6 +99,24 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
           }}
         />
         {/* End Google Tag Manager */}
+        {/* Google tag (gtag.js) - GA4 */}
+        <Script
+          async
+          src="https://www.googletagmanager.com/gtag/js?id=G-B691M5HP0M"
+          strategy="afterInteractive"
+        />
+        <Script
+          id="ga4-config"
+          strategy="afterInteractive"
+          dangerouslySetInnerHTML={{
+            __html: `
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-B691M5HP0M');`,
+          }}
+        />
+        {/* End Google tag (gtag.js) */}
         <link rel="icon" href="/favicon.ico" sizes="any" />
         <meta name="theme-color" content="#3b82f6" />
         <meta name="apple-mobile-web-app-capable" content="yes" />
