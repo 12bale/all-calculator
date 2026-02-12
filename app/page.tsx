@@ -99,6 +99,16 @@ const toolCards = [
     category: 'finance' as Category,
     keywords: ['청년', '청년도약계좌', '청년희망적금', '소득세감면', '청년정책', '청년혜택', '지원금'],
   },
+  {
+    id: 'acquisition-tax',
+    href: '/acquisition-tax-calculator',
+    title: '부동산 취득세 계산기',
+    description: '주택 매매가격과 보유 주택 수를 입력하면 취득세, 농어촌특별세, 지방교육세를 자동으로 계산합니다.',
+    icon: <Building2 className="w-6 h-6" />,
+    color: 'orange',
+    category: 'finance' as Category,
+    keywords: ['취득세', '부동산', '주택', '매매', '다주택', '조정대상지역', '농어촌특별세', '지방교육세'],
+  },
 
   // 생활 카테고리
   {
